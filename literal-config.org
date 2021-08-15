@@ -1,0 +1,12 @@
+* Literal config
+
+** Add Melpa repository
+   #+begin_src emacs-lisp
+     (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+   #+end_src
+   
+** Turn off tool bar
+   #+begin_src emacs-lisp
+     (message "turning off toolbar")
+     (tool-bar-mode -1)
+   #+end_src
