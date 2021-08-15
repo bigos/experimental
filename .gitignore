@@ -1,6 +1,12 @@
 auto-save-list
 
+# ignore backup files
+*~
+
 # ignore tangled files
 literal-config.el
 literal-config.elc
-literal-config.el~
+
+
+# ignore recent files
+recentf

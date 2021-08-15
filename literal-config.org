@@ -4,9 +4,40 @@
    #+begin_src emacs-lisp
      (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
    #+end_src
+
+** Settings from prelude init
+   #+begin_src emacs-lisp
+     ;; reduce the frequency of garbage collection by making it happen on
+     ;; each 50MB of allocated data (the default is on every 0.76MB)
+     (setq gc-cons-threshold 50000000)
+
+     ;; warn when opening files bigger than 100MB
+     (setq large-file-warning-threshold 100000000)
+
+     ;; config changes made through the customize UI will be stored here
+     (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+   #+end_src
    
+** Always load newest byte code
+   #+begin_src emacs-lisp
+     (setq load-prefer-newer t)
+   #+end_src
+   
+
 ** Turn off tool bar
    #+begin_src emacs-lisp
      (message "turning off toolbar")
      (tool-bar-mode -1)
+   #+end_src
+
+** Recent files
+
+   https://www.masteringemacs.org/article/find-files-faster-recent-files-package
+   
+   #+begin_src emacs-lisp
+     (require 'recentf)
+     (recentf-mode 1)
+     (setq recentf-max-menu-items 25)
+     (setq recentf-max-saved-items 25)
+     (global-set-key "\C-x\ \C-r" 'recentf-open-files)
    #+end_src
