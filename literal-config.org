@@ -1,5 +1,4 @@
 * Literal config
-
   
 ** beginning
    #+begin_src emacs-lisp
@@ -31,12 +30,6 @@
     #+end_src
    
 
-*** Turn off tool bar
-    #+begin_src emacs-lisp
-      (message "turning off toolbar")
-      (tool-bar-mode -1)
-    #+end_src
-
 *** Recent files
 
     https://www.masteringemacs.org/article/find-files-faster-recent-files-package
@@ -49,10 +42,28 @@
       (global-set-key "\C-x\ \C-r" 'recentf-open-files)
     #+end_src
 
+*** Load some Melpa packages
+    #+begin_src emacs-lisp
+      (defvar pkg-list
+       '(magit
+	 paredit
+	 rainbow-delimiters
+	 slime))
+
+      (mapc (lambda (pkg) (package-install pkg t)) pkg-list)
+    #+end_src
+    
+*** Turn off tool bar
+    #+begin_src emacs-lisp
+      (message "turning off toolbar")
+      (tool-bar-mode -1)
+    #+end_src
+
 *** Add Ido
     https://www.masteringemacs.org/article/introduction-to-ido-mode
 
     #+begin_src emacs-lisp
+      (require 'ido)
       (setq ido-enable-flex-matching t)
       (setq ido-everywhere t)
       (ido-mode 1)

@@ -14,5 +14,7 @@ custom.el
 
 elpa/
 savefile/
+transient/
 
 projectile-bookmarks.eld
+ido.last
