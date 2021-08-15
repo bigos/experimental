@@ -120,6 +120,8 @@
 
 
 *** Org mode configuration
+
+    https://fortelabs.co/blog/building-a-second-brain-in-emacs-and-org-mode/
     
 **** pdf link to page index
     
@@ -378,7 +380,7 @@
 
 
 #+END_SRC
-     
+
 ** The end
    #+begin_src emacs-lisp
      (message "\nthe end of literal config\n")
