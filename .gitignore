@@ -7,6 +7,12 @@ auto-save-list
 literal-config.el
 literal-config.elc
 
-
 # ignore recent files
 recentf
+
+custom.el
+
+elpa/
+savefile/
+
+projectile-bookmarks.eld

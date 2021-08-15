@@ -1,3 +1,6 @@
+(defvar init-dir (file-name-directory load-file-name)
+  "The root dir of the Emacs config.")
+
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
