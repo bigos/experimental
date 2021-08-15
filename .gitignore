@@ -1,1 +1,6 @@
 auto-save-list
+
+# ignore tangled files
+literal-config.el
+literal-config.elc
+literal-config.el~
