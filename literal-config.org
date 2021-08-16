@@ -50,79 +50,82 @@
     
     #+begin_src emacs-lisp
 
-      (require 'cl-lib)
-      (require 'package)
+	(require 'cl-lib)
+	(require 'package)
 
-      ;;;; Package setup and additional utility functions
-      (defvar prelude-dir init-dir)
+	;;;; Package setup and additional utility functions
+	(defvar prelude-dir init-dir)
 
-      ;; accessing a package repo over https on Windows is a no go, so we
-      ;; fallback to http there
-      (if (eq system-type 'windows-nt)
+	;; accessing a package repo over https on Windows is a no go, so we
+	;; fallback to http there
+	(if (eq system-type 'windows-nt)
+	    (add-to-list 'package-archives
+			 '("melpa" . "http://melpa.org/packages/") t)
 	  (add-to-list 'package-archives
-		       '("melpa" . "http://melpa.org/packages/") t)
-	(add-to-list 'package-archives
-		     '("melpa" . "https://melpa.org/packages/") t))
+		       '("melpa" . "https://melpa.org/packages/") t))
 
-      ;; set package-user-dir to be relative to Prelude install path
-      (setq package-user-dir (expand-file-name "elpa" prelude-dir))
-      (package-initialize)
+	;; set package-user-dir to be relative to Prelude install path
+	(setq package-user-dir (expand-file-name "elpa" prelude-dir))
+	(package-initialize)
 
-      (defvar prelude-packages
-	'(ace-window
-	  ag
-	  avy
-	  anzu
-	  browse-kill-ring
-	  crux
-	  discover-my-major
-	  diff-hl
-	  diminish
-	  easy-kill
-	  editorconfig
-	  epl
-	  expand-region
-	  flycheck
-	  gist
-	  git-timemachine
-	  gitconfig-mode
-	  gitignore-mode
-	  guru-mode
-	  hl-todo
-	  imenu-anywhere
-	  projectile
-	  magit
-	  move-text
-	  nlinum
-	  operate-on-number
-	  smartparens
-	  smartrep
-	  super-save
-	  undo-tree
-	  volatile-highlights
-	  which-key
-	  zenburn-theme
-	  zop-to-char)
-	"A list of packages to ensure are installed at launch.")
+	(defvar prelude-packages
+	  '(ace-window
+	    ag
+	    avy
+	    anzu
+	    browse-kill-ring
+	    crux
+	    discover-my-major
+	    diff-hl
+	    diminish
+	    easy-kill
+	    editorconfig
+	    epl
+	    expand-region
+	    flycheck
+	    gist
+	    git-timemachine
+	    gitconfig-mode
+	    gitignore-mode
+	    guru-mode
+	    hl-todo
+	    imenu-anywhere
+	    projectile
+	    magit
+	    move-text
+	    nlinum
+	    operate-on-number
+	    slime
+	    smartparens
+	    smartrep
+	    super-save
+	    undo-tree
+	    volatile-highlights
+	    which-key
+	    zenburn-theme
+	    zop-to-char)
+	  "A list of packages to ensure are installed at launch.")
 
 
-      (defun prelude-require-package (package)
-	"Install PACKAGE unless already installed."
-	(unless (package-installed-p package)
-	  (package-install package)))
+	(defun prelude-require-package (package)
+	  "Install PACKAGE unless already installed."
+	  (unless (memq package prelude-packages)
+	    (add-to-list 'prelude-packages package))
+	  (unless (package-installed-p package)
+	    (package-install package)))
 
-      (defun prelude-install-packages ()
-	"Install all packages listed in `prelude-packages'."
-	(unless (cl-every #'package-installed-p prelude-packages)
-	  ;; check for new packages (package versions)
-	  (message "%s" "Emacs Prelude is now refreshing its package database...")
-	  (package-refresh-contents)
-	  (message "%s" " done.")
-	  ;; install the missing packages
-	  (mapc #'prelude-require-package prelude-packages)))
+	(defun prelude-install-packages ()
+	  "Install all packages listed in `prelude-packages'."
+	  (unless (cl-every #'package-installed-p prelude-packages)
+	    ;; check for new packages (package versions)
+	    (message "%s" "Emacs Prelude is now refreshing its package database...")
+	    (package-refresh-contents)
+	    (message "%s" " done.")
+	    ;; install the missing packages
+	    (mapc #'prelude-require-package prelude-packages)))
 
-      ;; run package installation
-      (prelude-install-packages)
+	;; run package installation
+	(prelude-install-packages)
     #+end_src
 
     
