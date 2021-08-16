@@ -1,8 +1,8 @@
-(defvar init-dir (file-name-directory load-file-name)
-  "The root dir of the Emacs config.")
-
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+
+(defvar init-dir (file-name-directory load-file-name)
+  "The root dir of the Emacs config.")
 
 (defvar org-config (expand-file-name "literal-config.org" init-dir))
 (defvar elc-config (expand-file-name "literal-config.elc" init-dir))

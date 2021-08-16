@@ -6,19 +6,15 @@
 ** beginning
    #+begin_src emacs-lisp
      (message "\nbeginning of literal config")
+
+     ;; reduce the frequency of garbage collection by making it happen on
+     ;; each 50MB of allocated data (the default is on every 0.76MB)
+     (setq gc-cons-threshold 50000000)
    #+end_src
    
 ** Config
-*** Add Melpa repository
-    #+begin_src emacs-lisp
-      (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-    #+end_src
-
 *** Settings from prelude init
     #+begin_src emacs-lisp
-      ;; reduce the frequency of garbage collection by making it happen on
-      ;; each 50MB of allocated data (the default is on every 0.76MB)
-      (setq gc-cons-threshold 50000000)
 
       ;; warn when opening files bigger than 100MB
       (setq large-file-warning-threshold 100000000)
@@ -383,6 +379,9 @@
 
 ** The end
    #+begin_src emacs-lisp
+     ;; put frequency of garbage collection back to normal     
+     (setq gc-cons-threshold 1000000)
+
      (message "\nthe end of literal config\n")
    #+end_src
    
