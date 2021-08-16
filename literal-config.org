@@ -14,6 +14,31 @@
    
 ** Config
    
+*** Settings from prelude init
+    #+begin_src emacs-lisp
+
+      ;; warn when opening files bigger than 100MB
+      (setq large-file-warning-threshold 100000000)
+
+      ;; config changes made through the customize UI will be stored here
+      (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+
+      ;; "Don't show splash screen"
+      (setq inhibit-startup-screen t)
+    #+end_src
+   
+*** Recent files
+
+    https://www.masteringemacs.org/article/find-files-faster-recent-files-package
+   
+    #+begin_src emacs-lisp
+      (require 'recentf)
+      (recentf-mode 1)
+      (setq recentf-max-menu-items 25)
+      (setq recentf-max-saved-items 25)
+      (global-set-key "\C-x\ \C-r" 'recentf-open-files)
+    #+end_src
+
 *** Load some Melpa packages
     
     #+begin_src emacs-lisp
@@ -47,11 +72,13 @@
 
       ;; install packages in the following list
       (melpa-install-packages '(
-				use-package
-                paredit
-magit
+				color
+				magit
+				paredit
 				rainbow-delimiters
-				color))
+				slime
+				use-package
+				))
     #+end_src
 
     
@@ -98,7 +125,7 @@ magit
 
 *** Cleanup 80
 
-    Need spolish TODO
+    Needs polish TODO
     
     #+begin_src emacs-lisp
       (defun cleanup-80 ()
@@ -119,6 +146,7 @@ magit
       (defun insert-graph-arrow ()
 	(interactive)
 	(insert " -> "))
+	(global-set-key (kbd "s-]") 'insert-graph-arrow)
     #+end_src
 
 *** Org mode configuration
@@ -196,24 +224,25 @@ magit
 **** Slime
 #+BEGIN_SRC emacs-lisp
   ;;; this code has been responsible for slime version problem
-  ;; (defvar slime-helper-el "~/quicklisp/slime-helper.el")
-  ;; (when (file-exists-p slime-helper-el)
-  ;;   (load (expand-file-name slime-helper-el)))
+  (defvar slime-helper-el "~/quicklisp/slime-helper.el")
+  (when (file-exists-p slime-helper-el)
+    (load (expand-file-name slime-helper-el)))
 
-  ;; (require 'slime)
-  ;; (require 'slime-autoloads)
+  (require 'slime)
+  (require 'slime-repl)
+  (require 'slime-autoloads)
 
-  ;; (setq slime-contribs '(slime-fancy slime-fancy-inspector))
+  (setq slime-contribs '(slime-fancy slime-fancy-inspector))
 
-  ;; (defun slime-contrib-directory ()
-  ;;   (let* ((slime-folder-prefix "slime-20")
-  ;; 	 (folder-length (length slime-folder-prefix))
-  ;; 	 (slime-folder (car (seq-filter (lambda(x) (and (>= (length x)
-  ;; 							    folder-length)
-  ;; 							(equal slime-folder-prefix
-  ;; 							       (seq-subseq x 0 folder-length))) )
-  ;; 					(directory-files "~/.emacs.d/elpa")))))
-  ;;     (concat "~/.emacs.d/elpa/" slime-folder "/contrib/")))
+  (defun slime-contrib-directory ()
+    (let* ((slime-folder-prefix "slime-20")
+	   (folder-length (length slime-folder-prefix))
+	   (slime-folder (car (seq-filter (lambda(x) (and (>= (length x)
+							      folder-length)
+							  (equal slime-folder-prefix
+								 (seq-subseq x 0 folder-length))) )
+					  (directory-files "~/.emacs.d/elpa")))))
+      (concat "~/.emacs.d/elpa/" slime-folder "/contrib/")))
 
 
 
@@ -224,13 +253,13 @@ magit
 
   ;;; TODO fix it
 
-  ;; (defun slime-copy-last-expression-to-repl (string)
-  ;;   (interactive (list (slime-last-expression)))
-  ;;   (slime-switch-to-output-buffer)
-  ;;   (goto-char (point-max))
-  ;;   (insert string))
+  (defun slime-copy-last-expression-to-repl (string)
+    (interactive (list (slime-last-expression)))
+    (slime-switch-to-output-buffer)
+    (goto-char (point-max))
+    (insert string))
 
-  ;; (global-set-key (kbd "s-e") 'slime-copy-last-expression-to-repl)
+  (global-set-key (kbd "s-e") 'slime-copy-last-expression-to-repl)
 #+END_SRC
 
 **** Paredit

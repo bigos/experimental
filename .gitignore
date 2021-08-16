@@ -2,6 +2,7 @@ auto-save-list
 
 # ignore backup files
 *~
+#*#
 
 # ignore tangled files
 literal-config.el
