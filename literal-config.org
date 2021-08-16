@@ -73,6 +73,7 @@
       ;; install packages in the following list
       (melpa-install-packages '(
 				color
+				helm-descbinds
 				magit
 				paredit
 				rainbow-delimiters
@@ -416,7 +417,7 @@
 ** The end
    #+begin_src emacs-lisp
      ;; put frequency of garbage collection back to normal     
-     (setq gc-cons-threshold 1)
+     (setq gc-cons-threshold  800000)
 
      (message "\nthe end of literal config\n")
    #+end_src
