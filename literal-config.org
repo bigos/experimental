@@ -15,6 +15,7 @@
 ** Config
    
 *** Settings from prelude init
+    
     #+begin_src emacs-lisp
 
       ;; warn when opening files bigger than 100MB
@@ -26,13 +27,7 @@
       ;; "Don't show splash screen"
       (setq inhibit-startup-screen t)
     #+end_src
-   
-*** Add Melpa
-    #+begin_src emacs-lisp
-      (require 'package)
-      (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-    #+end_src
-    
+
 *** Recent files
 
     https://www.masteringemacs.org/article/find-files-faster-recent-files-package
@@ -52,20 +47,9 @@
    
 
 *** Load some Melpa packages
+    
     #+begin_src emacs-lisp
 
-      ;; (require 'package)
-      ;; ;; convcert to use package
-      ;; (defvar pkg-list
-      ;;   '(helm-descbinds
-      ;;     magit
-      ;;     paredit
-      ;;     rainbow-delimiters
-      ;;     slime
-      ;;    ))
-
-      ;; (setq package-selected-packages pkg-list)
-      ;; (package-install-selected-packages)
       (require 'cl-lib)
       (require 'package)
 
@@ -79,11 +63,6 @@
 		       '("melpa" . "http://melpa.org/packages/") t)
 	(add-to-list 'package-archives
 		     '("melpa" . "https://melpa.org/packages/") t))
-
-      ;; load the pinned packages
-      (let ((prelude-pinned-packages-file (expand-file-name "prelude-pinned-packages.el" prelude-dir)))
-	(if (file-exists-p prelude-pinned-packages-file)
-	    (load prelude-pinned-packages-file)))
 
       ;; set package-user-dir to be relative to Prelude install path
       (setq package-user-dir (expand-file-name "elpa" prelude-dir))
@@ -126,31 +105,21 @@
 	  zop-to-char)
 	"A list of packages to ensure are installed at launch.")
 
-      (defun prelude-packages-installed-p ()
-	"Check if all packages in `prelude-packages' are installed."
-	(cl-every #'package-installed-p prelude-packages))
 
       (defun prelude-require-package (package)
 	"Install PACKAGE unless already installed."
-	(unless (memq package prelude-packages)
-	  (add-to-list 'prelude-packages package))
 	(unless (package-installed-p package)
 	  (package-install package)))
 
-      (defun prelude-require-packages (packages)
-	"Ensure PACKAGES are installed.
-      Missing packages are installed automatically."
-	(mapc #'prelude-require-package packages))
-
       (defun prelude-install-packages ()
 	"Install all packages listed in `prelude-packages'."
-	(unless (prelude-packages-installed-p)
+	(unless (cl-every #'package-installed-p prelude-packages)
 	  ;; check for new packages (package versions)
 	  (message "%s" "Emacs Prelude is now refreshing its package database...")
 	  (package-refresh-contents)
 	  (message "%s" " done.")
 	  ;; install the missing packages
-	  (prelude-require-packages prelude-packages)))
+	  (mapc #'prelude-require-package prelude-packages)))
 
       ;; run package installation
       (prelude-install-packages)
