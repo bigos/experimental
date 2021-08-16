@@ -235,6 +235,8 @@
 
   (setq slime-contribs '(slime-fancy slime-fancy-inspector))
 
+  (setq inferior-lisp-program "/usr/local/bin/sbcl")
+
   (defun slime-contrib-directory ()
     (let* ((slime-folder-prefix "slime-20")
 	   (folder-length (length slime-folder-prefix))
@@ -251,8 +253,6 @@
   ;;; useful for expressions like (in-package #:whatever)
   ;;; alternatively you can use C-c ~ with cursor after (in-package :some-package)
   ;;; https://www.reddit.com/r/lisp/comments/ehs12v/copying_last_expression_to_repl_in_emacsslime/
-
-  ;;; TODO fix it
 
   (defun slime-copy-last-expression-to-repl (string)
     (interactive (list (slime-last-expression)))
