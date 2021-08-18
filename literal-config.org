@@ -15,10 +15,7 @@
 ** Config
    
 *** Define folders
-    In init.el we alredy have defined ~init-dir~ and two ~*-config~ folders for
-    loading the literal configuration.
-
-    This folders were inspired by Prelude examples
+    In init.el we alredy have defined ~init-dir~ folder.
     
 **** core
      #+begin_src emacs-lisp
