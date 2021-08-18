@@ -29,7 +29,6 @@
 ;; Boston, MA 02110-1301, USA.
 
 ;;; Code:
-(require 'cl)
 (require 'ido-completing-read+)
 
 (defun verse-books ()
@@ -55,7 +54,7 @@
 (defun verse-books-numbered ()
   "Bible books with numbers."
   (let ((c 0))
-    (-map (lambda (x) (incf c) (cons c x)) (verse-books))))
+    (-map (lambda (x) (cl-incf c) (cons c x)) (verse-books))))
 
 (defun verse-previous-verse-separator ()
   "Find verse separator."
@@ -72,19 +71,19 @@
          (cseparator (verse-previous-verse-separator))
          (chapt-ends (1- cseparator))
          (chapt-starts chapt-ends))
-    (while (/= 32 (char-after chapt-starts)) (incf chapt-starts -1))
+    (while (/= 32 (char-after chapt-starts)) (cl-incf chapt-starts -1))
     (let* ((cspace-ends chapt-starts)
            (cspace-starts cspace-ends))
-      (while (= 32 (char-after cspace-starts)) (incf cspace-starts -1))
+      (while (= 32 (char-after cspace-starts)) (cl-incf cspace-starts -1))
       (let* ((book-ends cspace-starts)
              (book-starts book-ends))
-        (while (/= 32 (char-after book-starts)) (incf book-starts -1))
+        (while (/= 32 (char-after book-starts)) (cl-incf book-starts -1))
         (let* ((bspace-ends book-starts)
                (bspace-starts bspace-ends))
-          (while (= 32 (char-after bspace-starts)) (incf bspace-starts -1))
+          (while (= 32 (char-after bspace-starts)) (cl-incf bspace-starts -1))
           (let* ((bnumber-ends  bspace-starts)
                  (bnumber-starts bnumber-ends))
-            (while (/= 32 (char-after bnumber-starts)) (incf bnumber-starts -1))
+            (while (/= 32 (char-after bnumber-starts)) (cl-incf bnumber-starts -1))
 
             (let* ((book-number (buffer-substring (1+ bnumber-starts) (1+ bnumber-ends)))
                    (book-name (capitalize (buffer-substring  (1+ book-starts)  (1+ book-ends))))
@@ -116,7 +115,7 @@
 (defun verse-page-link (book-name chapter verse)
   "Take strings BOOK-NAME CHAPTER and VERSE to create a string for org link."
   (let ((book-name-number (caar (-filter (lambda (x)
-                                           (equalp book-name (cadr x)))
+                                           (cl-equalp book-name (cadr x)))
                                          (verse-books-numbered)))))
     (format "[[https://wol.jw.org/en/wol/b/r1/lp-e/nwtsty/%d/%s#v=%d:%s:%s][%s %s:%s]]"
             book-name-number chapter book-name-number chapter verse

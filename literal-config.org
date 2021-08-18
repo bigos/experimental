@@ -78,10 +78,10 @@
       (setq package-user-dir (expand-file-name "elpa" init-dir))
 
       (require 'package)
+      (package-initialize)
 
       (defun melpa-install-packages (packages)
 	"Install all packages in packages list."
-	(package-initialize)
 	(let ((refreshed nil))    
 	  (mapc
 	   (lambda (pkg)
@@ -104,6 +104,8 @@
 				rainbow-delimiters
 				slime
 				smartparens
+				super-save
+				undo-tree ; gives warnings
 				use-package
 				))
     #+end_src
@@ -220,7 +222,11 @@
      #+END_SRC
 
 ***** link to bible verse
+
+      https://github.com/emacs-mirror/emacs/blob/master/lisp/emacs-lisp/bytecomp.el
+      do I have the problem because I use cl related functions      
       #+begin_src emacs-lisp
+
 	(require 'jacek-verse)
 
 	(add-hook 'org-mode-hook
