@@ -96,6 +96,18 @@
 				))
     #+end_src
 
+
+    
+*** Bind key
+
+    Use package needs bind key
+    
+    #+begin_src emacs-lisp
+      (use-package bind-key
+	:ensure t
+	:config
+	(add-to-list 'same-window-buffer-names "*Personal Keybindings*"))
+    #+end_src
     
 *** Recent files
 
