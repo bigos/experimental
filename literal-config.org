@@ -1,5 +1,5 @@
 * Literal config
-
+  
   Other examples can be found here
   https://github.com/caisah/emacs.dz
   
@@ -14,22 +14,44 @@
    
 ** Config
    
-*** Settings from prelude init
-    #+begin_src emacs-lisp
+*** Define folders
+    In init.el we alredy have defined ~init-dir~ and two ~*-config~ folders for
+    loading the literal configuration.
 
-      ;; warn when opening files bigger than 100MB
-      (setq large-file-warning-threshold 100000000)
+    This folders were inspired by Prelude examples
+ 
+**** core     
+     #+begin_src emacs-lisp
+       (defvar experimental-core-dir (expand-file-name "core" init-dir)
+	 "The core functionality.")
 
-      ;; config changes made through the customize UI will be stored here
-      (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+       (add-to-list 'load-path experimental-core-dir)
+     #+end_src
 
-      ;; "Don't show splash screen"
-      (setq inhibit-startup-screen t)
-    #+end_src
-   
+**** modules     
+     #+begin_src emacs-lisp
+       (defvar experimental-modules-dir (expand-file-name  "modules" init-dir)
+	 "This is the folder for Experimental modules.")
+
+       (add-to-list 'load-path experimental-modules-dir )
+     #+end_src
+
+**** vendor
+     #+begin_src emacs-lisp
+       (defvar experimental-vendor-dir (expand-file-name "vendor" init-dir)
+	 "This directory houses packages that are not yet available in ELPA (or MELPA).")
+
+       (add-to-list 'load-path experimental-vendor-dir)
+     #+end_src
+
+
+     
+**** require selected modules
+     This will allow for un/commenting required modules
+     
 *** Recent files
 
-    https://www.masteringemacs.org/article/find-files-faster-recent-files-package
+    This is at the top because we want it to work even if smething further down fails.
    
     #+begin_src emacs-lisp
       (require 'recentf)
@@ -40,6 +62,8 @@
     #+end_src
 
 *** Load some Melpa packages
+
+    Define package source and load some desired packages when neccesay.
     
     #+begin_src emacs-lisp
       ;; accessing a package repo over https on Windows is a no go, so we
@@ -74,15 +98,37 @@
       (melpa-install-packages '(
 				color
 				helm-descbinds
+				ido-completing-read+
 				magit
 				paredit
 				rainbow-delimiters
 				slime
+				smartparens
 				use-package
 				))
     #+end_src
 
     
+*** More settings from prelude init
+    
+**** Big file warning
+     #+begin_src emacs-lisp
+       ;; warn when opening files bigger than 100MB
+       (setq large-file-warning-threshold 100000000)
+     #+end_src
+
+**** Location of customize settings
+     #+begin_src emacs-lisp
+       ;; config changes made through the customize UI will be stored here
+       (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+     #+end_src
+    
+**** Inhibit showing of slpash screen
+     #+begin_src emacs-lisp
+       ;; "Don't show splash screen"
+       (setq inhibit-startup-screen t)
+     #+end_src
+   
 *** Emacs server
     
     Allow access from emacsclient
@@ -97,7 +143,6 @@
     
 *** Turn off tool bar
     #+begin_src emacs-lisp
-      (message "turning off toolbar")
       (tool-bar-mode -1)
     #+end_src
 
@@ -106,9 +151,12 @@
 
     #+begin_src emacs-lisp
       (require 'ido)
-      (setq ido-enable-flex-matching t)
-      (setq ido-everywhere t)
+
       (ido-mode 1)
+      (ido-everywhere 1)
+
+      (require 'ido-completing-read+)
+      (ido-ubiquitous-mode 1)
     #+end_src
     
 *** Add mode flashing in overwrite
@@ -122,7 +170,6 @@
 
       (add-hook 'overwrite-mode-hook #'(lambda () (double-flash-mode-line)))
     #+end_src
-
 
 *** Cleanup 80
 
@@ -139,280 +186,286 @@
 	;; insert new line char
 	(newline-and-indent))
 
-	(global-set-key (kbd "s-8") 'cleanup-80)
+      (global-set-key (kbd "s-8") 'cleanup-80)
     #+end_src
 
 *** Graph arrow
+    Insert -> in the buffer.
+    
     #+begin_src emacs-lisp
       (defun insert-graph-arrow ()
 	(interactive)
 	(insert " -> "))
-	(global-set-key (kbd "s-]") 'insert-graph-arrow)
+
+      (global-set-key (kbd "s-]") 'insert-graph-arrow)
     #+end_src
+*** Big settings
+**** Org mode configuration
 
-*** Org mode configuration
-
-    https://fortelabs.co/blog/building-a-second-brain-in-emacs-and-org-mode/
+     https://fortelabs.co/blog/building-a-second-brain-in-emacs-and-org-mode/
     
-**** pdf link to page index
+***** pdf link to page index
     
-    #+BEGIN_SRC emacs-lisp
-      (require 'org)
-      (org-link-set-parameters "pdf" 'org-pdf-open nil)
+     #+BEGIN_SRC emacs-lisp
+       (require 'org)
+       (org-link-set-parameters "pdf" 'org-pdf-open nil)
 
-      (defun org-pdf-open (link)
-	"Where page number is 105, the link should look like:
-	 [[pdf:/path/to/file.pdf#105][My description.]]"
-	(let* ((path+page (split-string link "#"))
-	       (pdf-file (car path+page))
-	       (page (car (cdr path+page))))
-	  (start-process "view-pdf" nil "evince" "--page-index" page pdf-file)))
-    #+END_SRC
+       (defun org-pdf-open (link)
+	 "Where page number is 105, the link should look like:
+	  [[pdf:/path/to/file.pdf#105][My description.]]"
+	 (let* ((path+page (split-string link "#"))
+		(pdf-file (car path+page))
+		(page (car (cdr path+page))))
+	   (start-process "view-pdf" nil "evince" "--page-index" page pdf-file)))
+     #+END_SRC
 
-**** link to bible verse
-     #+begin_src emacs-lisp
-       (add-hook 'org-mode-hook
-		 '(lambda ()
-		    (local-set-key [f5] 'verse-link)))
-     #+end_src
+***** link to bible verse
+      #+begin_src emacs-lisp
+	(require 'jacek-verse)
 
-**** link to a file and line
-     #+begin_src emacs-lisp
-(defun my-file-line-link ()
-  "Copy the buffer full path and line number into a clipboard
-                 for pasting into *.org file."
-  (interactive)
-  (let* ((home-part (concat "/home/"
-                            (user-login-name)))
-         (the-link
-          (let ((file-link
-                 (concat "file:"
-                         (let ((bfn buffer-file-name))
-                           (if (string-prefix-p home-part bfn)
-                               (concat "~"
-                                       (substring bfn (length home-part)))
-                             bfn))
-                         "::"
-                         (substring  (what-line) 5))))
-            (if (string-match " " file-link)
-                (concat "[[" file-link "]]")
-              file-link))))
-    (kill-new
-     (message the-link))))
+	(add-hook 'org-mode-hook
+		  '(lambda ()
+		     (local-set-key [f5] 'verse-link)))
+      #+end_src
 
-       ;; we had to cheat to have s-\ as a shortcut
-(global-set-key (kbd (format "%s-%c" "s" 92)) 'my-file-line-link)
-     #+end_src
+***** link to a file and line
+      #+begin_src emacs-lisp
+ (defun my-file-line-link ()
+   "Copy the buffer full path and line number into a clipboard
+                  for pasting into *.org file."
+   (interactive)
+   (let* ((home-part (concat "/home/"
+                             (user-login-name)))
+          (the-link
+           (let ((file-link
+                  (concat "file:"
+                          (let ((bfn buffer-file-name))
+                            (if (string-prefix-p home-part bfn)
+				(concat "~"
+					(substring bfn (length home-part)))
+                              bfn))
+                          "::"
+                          (substring  (what-line) 5))))
+             (if (string-match " " file-link)
+                 (concat "[[" file-link "]]")
+               file-link))))
+     (kill-new
+      (message the-link))))
+
+	;; we had to cheat to have s-\ as a shortcut
+ (global-set-key (kbd (format "%s-%c" "s" 92)) 'my-file-line-link)
+      #+end_src
 
 
-
-*** Lisp
-
+**** Lisp
     
-**** Clojure
+***** Clojure
+  #+BEGIN_SRC emacs-lisp
+    (add-to-list 'auto-mode-alist '("\\.edn\\'" . clojure-mode))
+
+    (add-hook 'cider-repl-mode-hook
+              '(lambda ()
+                 (local-set-key (kbd "C-c M-k") 'cider-repl-clear-buffer)))
+
+    (add-hook 'cider-repl-mode-hook
+              '(lambda ()
+                 (local-set-key (kbd "C-c M-a") 'cider-load-all-files)))
+  #+END_SRC
+
+***** Slime
  #+BEGIN_SRC emacs-lisp
-   (add-to-list 'auto-mode-alist '("\\.edn\\'" . clojure-mode))
+   ;;; this code has been responsible for slime version problem
+   (defvar slime-helper-el "~/quicklisp/slime-helper.el")
+   (when (file-exists-p slime-helper-el)
+     (load (expand-file-name slime-helper-el)))
 
-   (add-hook 'cider-repl-mode-hook
-             '(lambda ()
-                (local-set-key (kbd "C-c M-k") 'cider-repl-clear-buffer)))
+   (require 'slime)
+   (require 'slime-repl)
+   (require 'slime-autoloads)
 
-   (add-hook 'cider-repl-mode-hook
-             '(lambda ()
-                (local-set-key (kbd "C-c M-a") 'cider-load-all-files)))
+   (setq slime-contribs '(slime-fancy slime-fancy-inspector))
+
+   (setq inferior-lisp-program "/usr/local/bin/sbcl")
+
+   (defun slime-contrib-directory ()
+     (let* ((slime-folder-prefix "slime-20")
+	    (folder-length (length slime-folder-prefix))
+	    (slime-folder (car (seq-filter (lambda(x) (and (>= (length x)
+							       folder-length)
+							   (equal slime-folder-prefix
+								  (seq-subseq x 0 folder-length))) )
+					   (directory-files "~/.emacs.d/elpa")))))
+       (concat "~/.emacs.d/elpa/" slime-folder "/contrib/")))
+
+
+
+   ;;; copy last s-expression to repl
+   ;;; useful for expressions like (in-package #:whatever)
+   ;;; alternatively you can use C-c ~ with cursor after (in-package :some-package)
+   ;;; https://www.reddit.com/r/lisp/comments/ehs12v/copying_last_expression_to_repl_in_emacsslime/
+
+   (defun slime-copy-last-expression-to-repl (string)
+     (interactive (list (slime-last-expression)))
+     (slime-switch-to-output-buffer)
+     (goto-char (point-max))
+     (insert string))
+
+   (global-set-key (kbd "s-e") 'slime-copy-last-expression-to-repl)
  #+END_SRC
 
-**** Slime
-#+BEGIN_SRC emacs-lisp
-  ;;; this code has been responsible for slime version problem
-  (defvar slime-helper-el "~/quicklisp/slime-helper.el")
-  (when (file-exists-p slime-helper-el)
-    (load (expand-file-name slime-helper-el)))
+***** Paredit
+ #+BEGIN_SRC emacs-lisp
+   (add-hook 'minibuffer-inactive-mode-hook #'paredit-mode)
+   (add-hook 'minibuffer-inactive-mode-hook #'rainbow-delimiters-mode)
 
-  (require 'slime)
-  (require 'slime-repl)
-  (require 'slime-autoloads)
+   (defun swap-paredit ()
+     "Replace smartparens with superior paredit."
+     (smartparens-mode -1)
+     (paredit-mode +1))
 
-  (setq slime-contribs '(slime-fancy slime-fancy-inspector))
+   (autoload 'paredit-mode "paredit"
+     "Minor mode for pseudo-structurally editing Lisp code." t)
+   (add-hook 'emacs-lisp-mode-hook (lambda () (swap-paredit)))
 
-  (setq inferior-lisp-program "/usr/local/bin/sbcl")
+   (add-hook 'lisp-mode-hook (lambda () (swap-paredit)))
+   (add-hook 'lisp-interaction-mode-hook (lambda () (swap-paredit)))
 
-  (defun slime-contrib-directory ()
-    (let* ((slime-folder-prefix "slime-20")
-	   (folder-length (length slime-folder-prefix))
-	   (slime-folder (car (seq-filter (lambda(x) (and (>= (length x)
-							      folder-length)
-							  (equal slime-folder-prefix
-								 (seq-subseq x 0 folder-length))) )
-					  (directory-files "~/.emacs.d/elpa")))))
-      (concat "~/.emacs.d/elpa/" slime-folder "/contrib/")))
+   (add-hook 'scheme-mode-hook (lambda () (swap-paredit)))
+   (add-hook 'geiser-repl-mode-hook (lambda () (swap-paredit)))
+   (add-hook 'geiser-repl-mode-hook 'rainbow-delimiters-mode)
 
+   (add-hook 'ielm-mode-hook (lambda () (swap-paredit)))
+   (add-hook 'ielm-mode-hook 'rainbow-delimiters-mode)
 
+   (add-hook 'slime-repl-mode-hook (lambda () (swap-paredit)))
+   (add-hook 'slime-repl-mode-hook 'rainbow-delimiters-mode)
 
-  ;;; copy last s-expression to repl
-  ;;; useful for expressions like (in-package #:whatever)
-  ;;; alternatively you can use C-c ~ with cursor after (in-package :some-package)
-  ;;; https://www.reddit.com/r/lisp/comments/ehs12v/copying_last_expression_to_repl_in_emacsslime/
+   (add-hook 'clojure-mode-hook (lambda () (swap-paredit)))
+   (add-hook 'cider-repl-mode-hook (lambda () (swap-paredit)))
+ #+END_SRC
 
-  (defun slime-copy-last-expression-to-repl (string)
-    (interactive (list (slime-last-expression)))
-    (slime-switch-to-output-buffer)
-    (goto-char (point-max))
-    (insert string))
+***** The rest
+ #+BEGIN_SRC emacs-lisp
+   ;(require 'slime)
+   (setq common-lisp-hyperspec-root
+	 (format
+	  "file:/home/%s/Documents/Manuals/Lisp/HyperSpec-7-0/HyperSpec/"
+	  user-login-name))
 
-  (global-set-key (kbd "s-e") 'slime-copy-last-expression-to-repl)
-#+END_SRC
+     (defun unfold-lisp ()
+       "Unfold lisp code."
+       (interactive)
+       (search-forward ")")
+       (backward-char)
+       (search-forward " ")
+       (newline-and-indent))
 
-**** Paredit
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'minibuffer-inactive-mode-hook #'paredit-mode)
-  (add-hook 'minibuffer-inactive-mode-hook #'rainbow-delimiters-mode)
+     (global-set-key (kbd "s-0") 'unfold-lisp)
+ #+END_SRC
 
-  (defun swap-paredit ()
-    "Replace smartparens with superior paredit."
-    ;(smartparens-mode -1)
-    (paredit-mode +1))
+**** Parentheses coloring
 
-  (autoload 'paredit-mode "paredit"
-    "Minor mode for pseudo-structurally editing Lisp code." t)
-  (add-hook 'emacs-lisp-mode-hook (lambda () (swap-paredit)))
+ #+BEGIN_SRC emacs-lisp
+   ;;; this add capability to define your own hook for responding to theme changes
+   (defvar after-load-theme-hook nil
+     "Hook run after a color theme is loaded using `load-theme'.")
 
-  (add-hook 'lisp-mode-hook (lambda () (swap-paredit)))
-  (add-hook 'lisp-interaction-mode-hook (lambda () (swap-paredit)))
+   (defadvice load-theme (after run-after-load-theme-hook activate)
+     "Run `after-load-theme-hook'."
+     (run-hooks 'after-load-theme-hook))
 
-  (add-hook 'scheme-mode-hook (lambda () (swap-paredit)))
-  (add-hook 'geiser-repl-mode-hook (lambda () (swap-paredit)))
-  (add-hook 'geiser-repl-mode-hook 'rainbow-delimiters-mode)
+   (require 'color)
+   (defun hsl-to-hex (h s l)
+     "Convert H S L to hex colours."
+     (let (rgb)
+       (setq rgb (color-hsl-to-rgb h s l))
+       (color-rgb-to-hex (nth 0 rgb)
+			 (nth 1 rgb)
+			 (nth 2 rgb))))
 
-  (add-hook 'slime-repl-mode-hook (lambda () (swap-paredit)))
-  (add-hook 'slime-repl-mode-hook 'rainbow-delimiters-mode)
+   (defun hex-to-rgb (hex)
+     "Convert a 6 digit HEX color to r g b."
+     (mapcar #'(lambda (s) (/ (string-to-number s 16) 255.0))
+	     (list (substring hex 1 3)
+		   (substring hex 3 5)
+		   (substring hex 5 7))))
 
-  (add-hook 'clojure-mode-hook (lambda () (swap-paredit)))
-  (add-hook 'cider-repl-mode-hook (lambda () (swap-paredit)))
-#+END_SRC
+   (defun bg-color ()
+     "Return COLOR or it's hexvalue."
+     (let ((color (face-attribute 'default :background)))
+       (if (equal (substring color 0 1) "#")
+	   color
+	 (apply 'color-rgb-to-hex (color-name-to-rgb color)))))
 
-**** The rest
-#+BEGIN_SRC emacs-lisp
-  ;(require 'slime)
-  (setq common-lisp-hyperspec-root
-	(format
-	 "file:/home/%s/Documents/Manuals/Lisp/HyperSpec-7-0/HyperSpec/"
-	 user-login-name))
+   (defun bg-light ()
+     "Calculate background brightness."
+     (< (color-distance  "white"
+			 (bg-color))
+	(color-distance  "black"
+			 (bg-color))))
 
-    (defun unfold-lisp ()
-      "Unfold lisp code."
-      (interactive)
-      (search-forward ")")
-      (backward-char)
-      (search-forward " ")
-      (newline-and-indent))
+   (defun whitespace-line-bg ()
+     "Calculate long line highlight depending on background brightness."
+     (apply 'color-rgb-to-hex
+	    (apply 'color-hsl-to-rgb
+		   (apply (if (bg-light) 'color-darken-hsl 'color-lighten-hsl)
+			  (append
+			   (apply 'color-rgb-to-hsl
+				  (hex-to-rgb
+				   (bg-color)))
+			   '(7))))))
 
-    (global-set-key (kbd "s-0") 'unfold-lisp)
-#+END_SRC
-
-*** Parentheses coloring
-
-#+BEGIN_SRC emacs-lisp
-  ;;; this add capability to define your own hook for responding to theme changes
-  (defvar after-load-theme-hook nil
-    "Hook run after a color theme is loaded using `load-theme'.")
-
-  (defadvice load-theme (after run-after-load-theme-hook activate)
-    "Run `after-load-theme-hook'."
-    (run-hooks 'after-load-theme-hook))
-
-  (require 'color)
-  (defun hsl-to-hex (h s l)
-    "Convert H S L to hex colours."
-    (let (rgb)
-      (setq rgb (color-hsl-to-rgb h s l))
-      (color-rgb-to-hex (nth 0 rgb)
-			(nth 1 rgb)
-			(nth 2 rgb))))
-
-  (defun hex-to-rgb (hex)
-    "Convert a 6 digit HEX color to r g b."
-    (mapcar #'(lambda (s) (/ (string-to-number s 16) 255.0))
-	    (list (substring hex 1 3)
-		  (substring hex 3 5)
-		  (substring hex 5 7))))
-
-  (defun bg-color ()
-    "Return COLOR or it's hexvalue."
-    (let ((color (face-attribute 'default :background)))
-      (if (equal (substring color 0 1) "#")
-	  color
-	(apply 'color-rgb-to-hex (color-name-to-rgb color)))))
-
-  (defun bg-light ()
-    "Calculate background brightness."
-    (< (color-distance  "white"
-			(bg-color))
-       (color-distance  "black"
-			(bg-color))))
-
-  (defun whitespace-line-bg ()
-    "Calculate long line highlight depending on background brightness."
-    (apply 'color-rgb-to-hex
-	   (apply 'color-hsl-to-rgb
-		  (apply (if (bg-light) 'color-darken-hsl 'color-lighten-hsl)
-			 (append
-			  (apply 'color-rgb-to-hsl
-				 (hex-to-rgb
-				  (bg-color)))
-			  '(7))))))
-
-  (defun bracket-colors ()
-    "Calculate the bracket colours based on background."
-    (let (hexcolors lightvals)
-      (setq lightvals (if (bg-light)
-			  (list (list .60 1.0 0.55) ; H S L
-				(list .30 1.0 0.40)
-				(list .11 1.0 0.55)
-				(list .01 1.0 0.65)
-				(list .75 0.9 0.55) ; H S L
-				(list .49 0.9 0.40)
-				(list .17 0.9 0.47)
-				(list .05 0.9 0.55))
-			(list (list .70 1.0 0.68) ; H S L
-			      (list .30 1.0 0.40)
-			      (list .11 1.0 0.50)
-			      (list .01 1.0 0.50)
-			      (list .81 0.9 0.55) ; H S L
-			      (list .49 0.9 0.40)
-			      (list .17 0.9 0.45)
-			      (list .05 0.9 0.45))))
-      (dolist (n lightvals)
-	(push (apply 'hsl-to-hex n) hexcolors))
-      (reverse hexcolors)))
+   (defun bracket-colors ()
+     "Calculate the bracket colours based on background."
+     (let (hexcolors lightvals)
+       (setq lightvals (if (bg-light)
+			   (list (list .60 1.0 0.55) ; H S L
+				 (list .30 1.0 0.40)
+				 (list .11 1.0 0.55)
+				 (list .01 1.0 0.65)
+				 (list .75 0.9 0.55) ; H S L
+				 (list .49 0.9 0.40)
+				 (list .17 0.9 0.47)
+				 (list .05 0.9 0.55))
+			 (list (list .70 1.0 0.68) ; H S L
+			       (list .30 1.0 0.40)
+			       (list .11 1.0 0.50)
+			       (list .01 1.0 0.50)
+			       (list .81 0.9 0.55) ; H S L
+			       (list .49 0.9 0.40)
+			       (list .17 0.9 0.45)
+			       (list .05 0.9 0.45))))
+       (dolist (n lightvals)
+	 (push (apply 'hsl-to-hex n) hexcolors))
+       (reverse hexcolors)))
 
 
-  (defun colorise-brackets ()
-    "Apply my own colours to rainbow delimiters."
-    (interactive)
-    (require 'rainbow-delimiters)
-    (custom-set-faces
-     ;; change the background but do not let theme to interfere with the foreground
-     `(whitespace-line ((t (:background ,(whitespace-line-bg)))))
-     ;; or use (list-colors-display)
-     `(rainbow-delimiters-depth-2-face ((t (:foreground ,(nth 0 (bracket-colors))))))
-     `(rainbow-delimiters-depth-3-face ((t (:foreground ,(nth 1 (bracket-colors))))))
-     `(rainbow-delimiters-depth-4-face ((t (:foreground ,(nth 2 (bracket-colors))))))
-     `(rainbow-delimiters-depth-5-face ((t (:foreground ,(nth 3 (bracket-colors))))))
-     `(rainbow-delimiters-depth-6-face ((t (:foreground ,(nth 4 (bracket-colors))))))
-     `(rainbow-delimiters-depth-7-face ((t (:foreground ,(nth 5 (bracket-colors))))))
-     `(rainbow-delimiters-depth-8-face ((t (:foreground ,(nth 6 (bracket-colors))))))
-     `(rainbow-delimiters-depth-9-face ((t (:foreground ,(nth 7 (bracket-colors))))))
-     `(rainbow-delimiters-unmatched-face ((t (:foreground "white" :background "red"))))
-     `(highlight ((t (:foreground "#ff0000" :background "#888"))))))
+   (defun colorise-brackets ()
+     "Apply my own colours to rainbow delimiters."
+     (interactive)
+     (require 'rainbow-delimiters)
+     (custom-set-faces
+      ;; change the background but do not let theme to interfere with the foreground
+      `(whitespace-line ((t (:background ,(whitespace-line-bg)))))
+      ;; or use (list-colors-display)
+      `(rainbow-delimiters-depth-2-face ((t (:foreground ,(nth 0 (bracket-colors))))))
+      `(rainbow-delimiters-depth-3-face ((t (:foreground ,(nth 1 (bracket-colors))))))
+      `(rainbow-delimiters-depth-4-face ((t (:foreground ,(nth 2 (bracket-colors))))))
+      `(rainbow-delimiters-depth-5-face ((t (:foreground ,(nth 3 (bracket-colors))))))
+      `(rainbow-delimiters-depth-6-face ((t (:foreground ,(nth 4 (bracket-colors))))))
+      `(rainbow-delimiters-depth-7-face ((t (:foreground ,(nth 5 (bracket-colors))))))
+      `(rainbow-delimiters-depth-8-face ((t (:foreground ,(nth 6 (bracket-colors))))))
+      `(rainbow-delimiters-depth-9-face ((t (:foreground ,(nth 7 (bracket-colors))))))
+      `(rainbow-delimiters-unmatched-face ((t (:foreground "white" :background "red"))))
+      `(highlight ((t (:foreground "#ff0000" :background "#888"))))))
 
-  (colorise-brackets)
+   (colorise-brackets)
 
-  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-  (add-hook 'after-load-theme-hook 'colorise-brackets)
+   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+   (add-hook 'after-load-theme-hook 'colorise-brackets)
 
 
-#+END_SRC
+ #+END_SRC
 
 ** The end
    #+begin_src emacs-lisp
