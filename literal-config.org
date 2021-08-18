@@ -43,8 +43,6 @@
 
        (add-to-list 'load-path experimental-vendor-dir)
      #+end_src
-
-
      
 **** require selected modules
      This will allow for un/commenting required modules
@@ -223,15 +221,18 @@
 
 ***** link to bible verse
 
-      https://github.com/emacs-mirror/emacs/blob/master/lisp/emacs-lisp/bytecomp.el
-      do I have the problem because I use cl related functions      
+      Why do I have to use the second argument to get rid of the compilation error
+      
       #+begin_src emacs-lisp
+	;; (require 'jacek-verse "/home/jacek/.emacs.d/modules/jacek-verse.el")
 
-	(require 'jacek-verse)
+	;; (add-hook 'org-mode-hook
+	;; 	  '(lambda ()
+	;; 	     (local-set-key [f5] 'verse-link)))
 
-	(add-hook 'org-mode-hook
-		  '(lambda ()
-		     (local-set-key [f5] 'verse-link)))
+	(use-package jacek-verse
+	  :load-path "./modules/jacek-verse"
+	  :bind ("<f5>" . verse-link))
       #+end_src
 
 ***** link to a file and line
