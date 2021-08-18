@@ -1,0 +1,6 @@
+* Modules folder
+
+  This is the folder for the code that makes emacs easier to use.
+
+  Improving support for programming languages or other interesting editing tasks
+  should go here.

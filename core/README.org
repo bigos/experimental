@@ -1,0 +1,8 @@
+* Core folder
+
+  Any code that is too big for the literal-config.* should go here.
+  
+  Any code that is shared in many places in our configuration should go here.
+
+  file:~/Programming/prelude/core/prelude-packages.el::134
+  Is a good candidate for putting something similar here.

@@ -1,0 +1,4 @@
+* Vendor folder
+
+  Drop here emacs packages that are not on Melpa.
+  Git cloned packages should be put here.
