@@ -19,8 +19,8 @@
     loading the literal configuration.
 
     This folders were inspired by Prelude examples
- 
-**** core     
+    
+**** core
      #+begin_src emacs-lisp
        (defvar experimental-core-dir (expand-file-name "core" init-dir)
 	 "The core functionality.")
@@ -28,7 +28,7 @@
        (add-to-list 'load-path experimental-core-dir)
      #+end_src
 
-**** modules     
+**** modules
      #+begin_src emacs-lisp
        (defvar experimental-modules-dir (expand-file-name  "modules" init-dir)
 	 "This is the folder for Experimental modules.")
@@ -47,18 +47,6 @@
 **** require selected modules
      This will allow for un/commenting required modules
      
-*** Recent files
-
-    This is at the top because we want it to work even if smething further down fails.
-   
-    #+begin_src emacs-lisp
-      (require 'recentf)
-      (recentf-mode 1)
-      (setq recentf-max-menu-items 25)
-      (setq recentf-max-saved-items 25)
-      (global-set-key "\C-x\ \C-r" 'recentf-open-files)
-    #+end_src
-
 *** Load some Melpa packages
 
     Define package source and load some desired packages when neccesay.
@@ -109,6 +97,24 @@
     #+end_src
 
     
+*** Recent files
+
+    This is at the top because we want it to work even if smething further down fails.
+   
+    #+begin_src emacs-lisp
+      (use-package recentf
+	:init
+	(setq recentf-max-menu-items 25
+	      recentf-auto-cleanup 'never
+	      recentf-keep '(file-remote-p file-readable-p))
+	(recentf-mode 1)
+	(let ((last-ido "~/.emacs.d/ido.last"))
+	  (when (file-exists-p last-ido)
+	    (delete-file last-ido)))
+
+	:bind ("s-r" . recentf-open-files))
+    #+end_src
+
 *** More settings from prelude init
     
 **** Big file warning
