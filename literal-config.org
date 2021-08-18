@@ -490,3 +490,8 @@
      (message "\nthe end of literal config\n")
    #+end_src
    
+** tip of the day
+   
+   #+begin_src emacs-lisp
+     (message "M-x describe-personal-keybindings will show keybindings defined in use-package user configuration.")
+   #+end_src
