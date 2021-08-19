@@ -124,6 +124,12 @@
 	:bind ("s-r" . recentf-open-files))
     #+end_src
 
+*** Helm descbinds
+    #+begin_src emacs-lisp
+      (use-package helm-descbinds
+	:bind ("C-h b" . helm-descbinds))  
+    #+end_src
+    
 *** More settings from prelude init
     
 **** Big file warning
