@@ -18,4 +18,26 @@
 
   file:~/Programming/prelude/core/prelude-editor.el::97
 
+  text scaling
+  file:~/Programming/prelude/core/prelude-global-keybindings.el::37
   
+
+  few useful shortcuts
+  file:~/Programming/prelude/core/prelude-global-keybindings.el::89
+
+  linux
+  file:~/Programming/prelude/core/prelude-linux.el::35
+  file:~/Programming/prelude/core/prelude-macos.el::35
+
+  preude shortcuts
+  file:~/Programming/prelude/core/prelude-mode.el::38
+
+  autoinstall
+  file:~/Programming/prelude/core/prelude-packages.el::132
+
+  file:~/Programming/prelude/core/prelude-ui.el::49
+
+  frame title
+  file:~/Programming/prelude/core/prelude-ui.el::74
+
+  file:~/Programming/prelude/core/prelude-ui.el::85
