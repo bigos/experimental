@@ -130,6 +130,11 @@
 	:bind ("C-h b" . helm-descbinds))  
     #+end_src
     
+*** y-or-n-p
+    #+begin_src emacs-lisp
+      (fset 'yes-or-no-p 'y-or-n-p)
+    #+end_src
+    
 *** More settings from prelude init
     
 **** Big file warning
