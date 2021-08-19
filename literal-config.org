@@ -2,6 +2,7 @@
   
   Other examples can be found here
   https://github.com/caisah/emacs.dz
+  https://github.com/alhassy/emacs.d
   
 ** beginning
    #+begin_src emacs-lisp
