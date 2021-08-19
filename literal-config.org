@@ -88,7 +88,7 @@
 				slime
 				smartparens
 				super-save
-				undo-tree ; gives warnings
+				undo-tree	; gives warnings
 				use-package
 				))
     #+end_src
@@ -170,16 +170,17 @@
 *** Add Ido
     https://www.masteringemacs.org/article/introduction-to-ido-mode
 
-    #+begin_src emacs-lisp
-      (require 'ido)
+**** completing-read
+     #+begin_src emacs-lisp
+       (require 'ido)
 
-      (ido-mode 1)
-      (ido-everywhere 1)
+       (ido-mode 1)
+       (ido-everywhere 1)
 
-      (require 'ido-completing-read+)
-      (ido-ubiquitous-mode 1)
-    #+end_src
-    
+       (require 'ido-completing-read+)
+       (ido-ubiquitous-mode 1)
+     #+end_src
+         
 *** Add mode flashing in overwrite
     #+begin_src emacs-lisp
       (defun double-flash-mode-line ()
