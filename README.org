@@ -1,7 +1,7 @@
 * Experimental
   Emacs configuration using org mode.
 
-  
+
 * prelude notes
 
   file:~/Programming/prelude/core/prelude-editor.el::398
@@ -20,7 +20,7 @@
 
   text scaling
   file:~/Programming/prelude/core/prelude-global-keybindings.el::37
-  
+
 
   few useful shortcuts
   file:~/Programming/prelude/core/prelude-global-keybindings.el::89
@@ -41,3 +41,9 @@
   file:~/Programming/prelude/core/prelude-ui.el::74
 
   file:~/Programming/prelude/core/prelude-ui.el::85
+
+** programming
+
+   file:~/.emacs.d-prelude-newest/modules/prelude-emacs-lisp.el::1
+   file:~/.emacs.d-prelude-newest/modules/prelude-lisp.el::1
+   file:~/.emacs.d-prelude-newest/modules/prelude-common-lisp.el::1
