@@ -147,6 +147,7 @@
      #+begin_src emacs-lisp
        ;; config changes made through the customize UI will be stored here
        (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+       (ignore-errors (load custom-file)) ;; It may not yet exist.
      #+end_src
     
 **** Inhibit showing of slpash screen
