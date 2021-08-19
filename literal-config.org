@@ -185,6 +185,25 @@
 		  (unless (server-running-p)
 		    (server-start))))
     #+end_src
+
+*** Window title
+    #+begin_src emacs-lisp
+      ;; more useful frame title, that show either a file or a
+      ;; buffer name (if the buffer isn't visiting a file)
+      (setq frame-title-format
+	    '("" invocation-name " Experimental - " (:eval (if (buffer-file-name)
+						  (abbreviate-file-name (buffer-file-name))
+						"%b"))))
+    #+end_src
+
+    
+*** Which key
+    #+begin_example emacs-lisp
+      (use-package which-key
+        :ensure t
+        :config
+	(which-key-mode +1))  
+    #+end_example
     
 *** Turn off tool bar
     #+begin_src emacs-lisp
