@@ -1,2 +1,21 @@
 * Experimental
   Emacs configuration using org mode.
+
+  
+* prelude notes
+
+  file:~/Programming/prelude/core/prelude-editor.el::398
+
+  file:~/Programming/prelude/core/prelude-editor.el::360
+
+  file:~/Programming/prelude/core/prelude-editor.el::237
+
+  file:~/Programming/prelude/core/prelude-editor.el::178
+
+  file:~/Programming/prelude/core/prelude-editor.el::172
+
+  file:~/Programming/prelude/core/prelude-editor.el::120
+
+  file:~/Programming/prelude/core/prelude-editor.el::97
+
+  
