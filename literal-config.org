@@ -136,6 +136,23 @@
       (fset 'yes-or-no-p 'y-or-n-p)
     #+end_src
     
+*** some shortcuts
+    #+begin_src emacs-lisp
+
+;; Font size
+(global-set-key (kbd "C-+") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
+
+;; Window switching. (C-x o goes to the next window)
+(global-set-key (kbd "C-x O") (lambda ()
+                                (interactive)
+                                (other-window -1))) ;; back one
+
+;; toggle menu-bar visibility
+(global-set-key (kbd "<f12>") 'menu-bar-mode)
+
+    #+end_src
+    
 *** More settings from prelude init
     
 **** Big file warning
