@@ -47,3 +47,28 @@
    file:~/.emacs.d-prelude-newest/modules/prelude-emacs-lisp.el::1
    file:~/.emacs.d-prelude-newest/modules/prelude-lisp.el::1
    file:~/.emacs.d-prelude-newest/modules/prelude-common-lisp.el::1
+
+** crux
+   file:~/Programming/prelude/core/prelude-core.el::17
+   file:~/Programming/prelude/core/prelude-mode.el::34
+   file:~/Programming/prelude/core/prelude-packages.el::62
+   file:~/Programming/prelude/modules/prelude-emacs-lisp.el::34
+   file:~/Programming/prelude/modules/prelude-emacs-lisp.el::53
+   file:~/Programming/prelude/sample/prelude-pinned-packages.el::24
+
+   file:~/Programming/prelude/elpa/crux-20210309.838/crux-pkg.el::1
+   file:~/Programming/prelude/elpa/crux-20210309.838/crux.el::1
+
+   terms
+   file:~/Programming/prelude/elpa/crux-20210309.838/crux.el::147
+
+   could this one give me the problems with LESS command
+   file:~/Programming/prelude/elpa/crux-20210309.838/crux.el::163
+
+   file:~/Programming/prelude/elpa/crux-20210309.838/crux.el::334
+
+   recompile the user config
+   file:~/Programming/prelude/elpa/crux-20210309.838/crux.el::526
+
+   transpose windows
+   file:~/Programming/prelude/elpa/crux-20210309.838/crux.el::635
