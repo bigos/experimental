@@ -19,3 +19,8 @@ transient/
 
 projectile-bookmarks.eld
 ido.last
+
+
+# org mode
+.org-id-locations
+org-roam.db
