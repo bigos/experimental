@@ -73,3 +73,5 @@
 
    transpose windows
    file:~/Programming/prelude/elpa/crux-20210309.838/crux.el::635
+   
+   file:~/Programming/prelude/elpa/crux-20210811.436/crux.el::639
