@@ -1,5 +1,5 @@
 * Literal config
-  
+
   Other examples can be found here
   https://github.com/caisah/emacs.dz
   https://github.com/alhassy/emacs.d
@@ -326,8 +326,10 @@ TODO add code for nicer ielm experiemce
 We need to use path like this
 
 #+begin_src emacs-lisp
-    (use-package jacek-verse
-      :load-path "modules/")  
+  (use-package jacek-verse
+    :load-path "modules/"
+    :bind ("<f5>" . verse-link)
+    )  
 #+end_src
 
 ***** Clojure
