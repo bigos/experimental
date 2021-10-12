@@ -168,7 +168,7 @@
        (ignore-errors (load custom-file)) ;; It may not yet exist.
      #+end_src
     
-**** Inhibit showing of slpash screen
+**** Inhibit showing of splash screen
      #+begin_src emacs-lisp
        ;; "Don't show splash screen"
        (setq inhibit-startup-screen t)
@@ -319,6 +319,8 @@
 
 **** Lisp
     
+***** Emasc Lisp
+TODO add code for nice ielm experiemce
 ***** Clojure
   #+BEGIN_SRC emacs-lisp
     (add-to-list 'auto-mode-alist '("\\.edn\\'" . clojure-mode))
