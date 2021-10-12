@@ -267,8 +267,10 @@
 *** Big settings
 **** Org mode configuration
 
-     https://fortelabs.co/blog/building-a-second-brain-in-emacs-and-org-mode/
-    
+      https://fortelabs.co/blog/building-a-second-brain-in-emacs-and-org-mode/
+      
+***** org-roam
+
 ***** pdf link to page index
     
      #+BEGIN_SRC emacs-lisp

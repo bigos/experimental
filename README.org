@@ -43,7 +43,8 @@
   file:~/Programming/prelude/core/prelude-ui.el::85
 
 ** programming
-
+   file:~/.emacs.d-prelude-newest/modules/prelude-programming.el::1
+   file:~/.emacs.d-prelude-newest/modules/prelude-lisp.el::1
    file:~/.emacs.d-prelude-newest/modules/prelude-emacs-lisp.el::1
    file:~/.emacs.d-prelude-newest/modules/prelude-lisp.el::1
    file:~/.emacs.d-prelude-newest/modules/prelude-common-lisp.el::1
@@ -72,3 +73,5 @@
 
    transpose windows
    file:~/Programming/prelude/elpa/crux-20210309.838/crux.el::635
+   
+   file:~/Programming/prelude/elpa/crux-20210811.436/crux.el::639
