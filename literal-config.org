@@ -323,6 +323,12 @@
 TODO add code for nicer ielm experiemce
 
 ****** jacek-verse
+We need to use path like this
+
+#+begin_src emacs-lisp
+    (use-package jacek-verse
+      :load-path "modules/")  
+#+end_src
 
 ***** Clojure
   #+BEGIN_SRC emacs-lisp
