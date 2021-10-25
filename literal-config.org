@@ -92,6 +92,7 @@
 				discover-my-major
 				easy-kill
 				editorconfig
+				eldoc
 				epl
 				expand-region
 				flycheck
@@ -99,7 +100,7 @@
 				guru-mode
 				helm-descbinds
 				hl-todo
-				ido-completing-read+
+			
 				imenu-anywhere
 				magit
 				move-text
@@ -108,7 +109,6 @@
 				paredit
 				projectile
 				prop-menu
-				eldoc
 				rainbow-delimiters
 				slime
 				smartparens
