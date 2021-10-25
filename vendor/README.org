@@ -2,3 +2,7 @@
 
   Drop here emacs packages that are not on Melpa.
   Git cloned packages should be put here.
+  
+** idris2-mode
+Was found here
+https://github.com/idris-community/idris2-mode
