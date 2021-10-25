@@ -29,7 +29,7 @@
 ;; Boston, MA 02110-1301, USA.
 
 ;;; Code:
-(require 'ido-completing-read+)
+;(require 'ido-completing-read+)
 
 (defun verse-books ()
   "List of Bible books and abbreviations."
@@ -65,8 +65,8 @@
 (defun verse-link ()
   "Find components."
   (interactive)
-  ;; enable mode for ido-completing-read+
-  (ido-ubiquitous-mode 1)
+  
+  
   (let* ((cpoint (point))
          (cseparator (verse-previous-verse-separator))
          (chapt-ends (1- cseparator))
@@ -92,12 +92,11 @@
                            (buffer-substring (1+ cseparator) cpoint)))
                    (long-books (-map 'car (verse-books)))
                    (link-book (if (member book-name long-books)
-                                  book-name
-                                (ido-completing-read+ (format "select correction for %S" book-name)
-                                                      long-books
-                                                      nil
-                                                      t
-                                                      book-name))))
+                                  book-name                                
+				(ivy-read  (format "select correction for %S: " book-name)
+						      long-books
+						      )
+				)))
               (goto-char cpoint)
               ;; print debugging information
               ;; TODO add handling for book with numbers
