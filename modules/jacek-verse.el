@@ -94,9 +94,8 @@
                    (link-book (if (member book-name long-books)
                                   book-name                                
 				(ivy-read  (format "select correction for %S: " book-name)
-						      long-books
-						      )
-				)))
+					   long-books
+					   :initial-input book-name))))
               (goto-char cpoint)
               ;; print debugging information
               ;; TODO add handling for book with numbers
