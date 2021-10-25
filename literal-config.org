@@ -244,15 +244,39 @@
 
 **** completing-read
      #+begin_src emacs-lisp
-       (require 'ido)
 
-       (ido-mode 1)
-       (ido-everywhere 1)
+       ;; (require 'ido)
 
-       (require 'ido-completing-read+)
-       (ido-ubiquitous-mode 1)
+       ;; (ido-mode 1)
+       ;; (ido-everywhere 1)
+
+       ;; (require 'ido-completing-read+)
+       ;; (ido-ubiquitous-mode 1)
      #+end_src
          
+*** Ivy
+https://dev.to/deciduously/how-i-emacs-and-so-can-you-packages-m9p
+#+begin_src emacs-lisp
+
+  (use-package ivy
+    :ensure t				;make sure ivy is installed
+    :diminish (ivy-mode . "")
+    :init (ivy-mode 1)			;globally at startup
+    :config
+    (setq ivy-use-virtual-buffers t)
+    (setq enable-recursive-minibuffers t)
+    (setq ivy-height 20)
+    (setq ivy-count-format "%d/%d ")
+    :bind ("C-c C-r" . ivy-resume))
+#+end_src
+
+*** Swiper
+#+begin_src emacs-lisp
+  (use-package swiper
+    :ensure t
+    :bind ("C-s" . swiper))
+#+end_src
+
 *** Add mode flashing in overwrite
     #+begin_src emacs-lisp
       (defun double-flash-mode-line ()
