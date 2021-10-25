@@ -6,3 +6,7 @@
 ** idris2-mode
 Was found here
 https://github.com/idris-community/idris2-mode
+
+My installation slightly differs from the repo instructions.
+I have git cloned the repo to Programming directory
+and created a symbolic link to idris2-mode in the vendor folder.
