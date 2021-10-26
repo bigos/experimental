@@ -79,8 +79,7 @@
 	   packages)))
 
       ;; install packages in the following list
-      (melpa-install-packages '(
-				ace-window
+      (melpa-install-packages '(				
 				ag
 				anzu
 				avy
@@ -152,6 +151,19 @@
 	    (delete-file last-ido)))
 
 	:bind ("s-r" . recentf-open-files))
+    #+end_src
+
+*** Ace window
+    #+begin_src emacs-lisp
+		  (use-package ace-window
+		    :ensure t
+		    :init
+		    (custom-set-faces
+		     '(aw-leading-char-face
+		       ((t (:inherit ace-jump-face-foreground
+				     :height 3.0
+				     :foreground "red")))))
+		    :bind ("C-x o" . ace-window))
     #+end_src
 
 *** Helm descbinds
