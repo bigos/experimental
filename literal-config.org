@@ -251,22 +251,6 @@
       (tool-bar-mode -1)
     #+end_src
 
-*** Add Ido
-    https://www.masteringemacs.org/article/introduction-to-ido-mode
-
-**** completing-read
-     #+begin_src emacs-lisp
-
-       ;; (require 'ido)
-
-       ;; (ido-mode 1)
-       ;; (ido-everywhere 1)
-
-       ;; (require 'ido-completing-read+)
-       ;; (ido-ubiquitous-mode 1)
-     #+end_src
-         
-
 *** Ivy
 https://dev.to/deciduously/how-i-emacs-and-so-can-you-packages-m9p
 #+begin_src emacs-lisp
