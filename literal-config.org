@@ -33,13 +33,20 @@
 
        (add-to-list 'load-path experimental-modules-dir )
      #+end_src
-
 **** vendor
      #+begin_src emacs-lisp
        (defvar experimental-vendor-dir (expand-file-name "vendor" init-dir)
 	 "This directory houses packages that are not yet available in ELPA (or MELPA).")
 
        (add-to-list 'load-path experimental-vendor-dir)
+     #+end_src
+
+**** savefile
+     #+begin_src emacs-lisp
+       (defvar experimental-savefile-dir (expand-file-name "savefile" init-dir)
+	 "This directory houses packages that are not yet available in ELPA (or MELPA).")
+
+       (add-to-list 'load-path experimental-savefile-dir)
      #+end_src
      
 **** require selected modules
@@ -250,51 +257,99 @@
       (tool-bar-mode -1)
     #+end_src
 
-*** Ivy
+*** Autocompletion - ivy   
+**** Ivy
 https://dev.to/deciduously/how-i-emacs-and-so-can-you-packages-m9p
 #+begin_src emacs-lisp
 
-  (use-package ivy
-    :ensure t				;make sure ivy is installed
-    :diminish 
-    :init (ivy-mode 1)			;globally at startup
-    :config
-    (setq ivy-use-virtual-buffers t)
-    (setq enable-recursive-minibuffers t)
-    (setq ivy-height 20)
-    (setq ivy-count-format "%d/%d ")
-    :bind ("C-c C-r" . ivy-resume))
+  ;; (use-package ivy
+  ;;   :ensure t				;make sure ivy is installed
+  ;;   :diminish 
+  ;;   :init (ivy-mode 1)			;globally at startup
+  ;;   :config
+  ;;   (setq ivy-use-virtual-buffers t)
+  ;;   (setq enable-recursive-minibuffers t)
+  ;;   (setq ivy-height 20)
+  ;;   (setq ivy-count-format "%d/%d ")
+  ;;   :bind ("C-c C-r" . ivy-resume))
 #+end_src
 
 
-*** Swiper
+**** Swiper
 Improved C-s search
 #+begin_src emacs-lisp
-  (use-package swiper
-    :ensure t
-    :bind ("C-s" . swiper))
+  ;; (use-package swiper
+  ;;   :ensure t
+  ;;   :bind ("C-s" . swiper))
 #+end_src
 
-*** Counsel
+**** Counsel
 #+begin_src emacs-lisp
-  (use-package counsel
+  ;; (use-package counsel
+  ;;   :ensure t
+  ;;   :bind*				;load when pressed
+  ;;   (
+  ;;    ("M-x"     . counsel-M-x)
+  ;;    ("C-x C-f" . counsel-find-file)
+  ;;    ("C-x C-r" . counsel-recentf)  ; search for recently edited
+  ;;    ("C-c g"   . counsel-git)      ; search for files in git repo
+  ;;    ("C-c j"   . counsel-git-grep) ; search for regexp in git repo
+  ;;    ("C-c /"   . counsel-ag)       ; Use ag for regexp
+  ;;    ("C-x l"   . counsel-locate)
+  ;;    ("C-x C-f" . counsel-find-file)
+  ;;    ("<f1> f"  . counsel-describe-function)
+  ;;    ("<f1> v"  . counsel-describe-variable)
+  ;;    ("<f1> l"  . counsel-find-library)
+  ;;    ("<f2> i"  . counsel-info-lookup-symbol)
+  ;;    ("<f2> u"  . counsel-unicode-char)
+  ;;    ))
+#+end_src
+
+*** Autocompletion - ido
+#+begin_src emacs-lisp
+    (use-package ido
+      :ensure t
+      :config
+      (setq ido-enable-prefix nil
+	    ido-enable-flex-matching t
+	    ido-create-new-buffer 'always
+	    ido-use-filename-at-point 'guess
+	    ido-max-prospects 10
+	    ido-save-directory-list-file (expand-file-name "ido.hist" experimental-savefile-dir)
+	    ido-default-file-method 'selected-window
+	    ido-auto-merge-work-directories-length -1)
+      (ido-mode +1)
+      (ido-ubiquitous-mode +1)
+      (setq ido-use-faces nil)
+
+      )
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package ido-completing-read+
     :ensure t
-    :bind*				;load when pressed
-    (
-     ("M-x"     . counsel-M-x)
-     ("C-x C-f" . counsel-find-file)
-     ("C-x C-r" . counsel-recentf)  ; search for recently edited
-     ("C-c g"   . counsel-git)      ; search for files in git repo
-     ("C-c j"   . counsel-git-grep) ; search for regexp in git repo
-     ("C-c /"   . counsel-ag)       ; Use ag for regexp
-     ("C-x l"   . counsel-locate)
-     ("C-x C-f" . counsel-find-file)
-     ("<f1> f"  . counsel-describe-function)
-     ("<f1> v"  . counsel-describe-variable)
-     ("<f1> l"  . counsel-find-library)
-     ("<f2> i"  . counsel-info-lookup-symbol)
-     ("<f2> u"  . counsel-unicode-char)
-     ))
+    :config
+   )
+#+end_src
+
+#+begin_src emacs-lisp
+    (use-package flx-ido
+      :ensure t
+      :config
+      (flx-ido-mode +1)
+     )
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package smex
+    :ensure t
+    :config
+    (setq smex-save-file (expand-file-name ".smex-items" experimental-savefile-dir))
+    (smex-initialize)
+    (global-set-key (kbd "M-x") 'smex)
+    (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+
+    )
 #+end_src
 
 *** Add mode flashing in overwrite
