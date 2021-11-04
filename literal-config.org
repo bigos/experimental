@@ -228,7 +228,34 @@
        ;; "Don't show splash screen"
        (setq inhibit-startup-screen t)
      #+end_src
-   
+
+**** Backup, autosave and other editor settings
+
+#+begin_src emacs-lisp
+  ;; Emacs modes typically provide a standard means to change the
+  ;; indentation width -- eg. c-basic-offset: use that to adjust your
+  ;; personal indentation width, while maintaining the style (and
+  ;; meaning) of any files you load.
+  (setq-default indent-tabs-mode nil)   ;; don't use tabs to indent
+  (setq-default tab-width 8)            ;; but maintain correct appearance
+
+  ;; Newline at end of file
+  (setq require-final-newline t)
+
+  ;; delete the selection with a keypress
+  (delete-selection-mode t)
+
+  ;; store all backup and autosave files in the tmp dir
+  (setq backup-directory-alist
+	`((".*" . ,temporary-file-directory)))
+  (setq auto-save-file-name-transforms
+	`((".*" ,temporary-file-directory t)))
+
+  ;; revert buffers automatically when underlying files are changed externally
+  (global-auto-revert-mode t)
+
+     #+end_src
+
 *** Emacs server
     
     Allow access from emacsclient
@@ -440,16 +467,16 @@ Pop up menu
     :custom
     (org-roam-directory (file-truename org-directory))
     :config
-    (org-roam-setup)
+    (org-roam-db-autosync-enable)
     :bind (("C-c n f" . org-roam-node-find)
-	   ("C-c n g" . org-roam-graph)
-	   ("C-c n r" . org-roam-node-random)		    
-	   (:map org-mode-map
-		 (("C-c n i" . org-roam-node-insert)
-		  ("C-c n o" . org-id-get-create)
-		  ("C-c n t" . org-roam-tag-add)
-		  ("C-c n a" . org-roam-alias-add)
-		  ("C-c n l" . org-roam-buffer-toggle)))))
+           ("C-c n g" . org-roam-graph)
+           ("C-c n r" . org-roam-node-random)		    
+           (:map org-mode-map
+                 (("C-c n i" . org-roam-node-insert)
+                  ("C-c n o" . org-id-get-create)
+                  ("C-c n t" . org-roam-tag-add)
+                  ("C-c n a" . org-roam-alias-add)
+                  ("C-c n l" . org-roam-buffer-toggle)))))
 #+end_src
 
 ***** pdf link to page index
