@@ -156,7 +156,7 @@
     #+begin_src emacs-lisp
       (use-package recentf
 	:init
-	(setq recentf-max-menu-items 25
+	(setq recentf-max-menu-items 50
 	      recentf-auto-cleanup 'never
 	      recentf-keep '(file-remote-p file-readable-p))
 	(recentf-mode 1)
@@ -468,6 +468,7 @@ Pop up menu
     (org-roam-directory (file-truename org-directory))
     :config
     (org-roam-db-autosync-enable)
+    (setq org-roam-completion-everywhere t)
     :bind (("C-c n f" . org-roam-node-find)
            ("C-c n g" . org-roam-graph)
            ("C-c n r" . org-roam-node-random)		    
