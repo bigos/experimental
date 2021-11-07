@@ -3,7 +3,7 @@
   Other examples can be found here
   https://github.com/caisah/emacs.dz
   https://github.com/alhassy/emacs.d
-    
+
 ** beginning
    #+begin_src emacs-lisp
      (message "\nbeginning of literal config")
@@ -12,12 +12,12 @@
      ;; each 50MB of allocated data (the default is on every 0.76MB)
      (setq gc-cons-threshold 50000000)
    #+end_src
-   
+
 ** Config
-   
+
 *** Define folders
     In init.el we alredy have defined ~init-dir~ folder.
-    
+
 **** core
      #+begin_src emacs-lisp
        (defvar experimental-core-dir (expand-file-name "core" init-dir)
@@ -48,22 +48,22 @@
 
        (add-to-list 'load-path experimental-savefile-dir)
      #+end_src
-     
+
 **** require selected modules
      This will allow for un/commenting required modules
-     
+
 *** Load some Melpa packages
 
     Define package source and load some desired packages when neccesay.
-    
+
     #+begin_src emacs-lisp
       ;; accessing a package repo over https on Windows is a no go, so we
       ;; fallback to http there
       (if (eq system-type 'windows-nt)
-	  (add-to-list 'package-archives
-		       '("melpa" . "http://melpa.org/packages/") t)
-	(add-to-list 'package-archives
-		     '("melpa" . "https://melpa.org/packages/") t))
+          (add-to-list 'package-archives
+                       '("melpa" . "http://melpa.org/packages/") t)
+        (add-to-list 'package-archives
+                     '("melpa" . "https://melpa.org/packages/") t))
 
       ;; set package-user-dir to be relative to init.el path
       (setq package-user-dir (expand-file-name "elpa" init-dir))
@@ -71,65 +71,65 @@
       (require 'package)
 
       (defun melpa-install-packages (packages)
-	"Install all packages in packages list."
-	(let ((refreshed nil))    
-	  (mapc
-	   (lambda (pkg)
-	     (unless (package-installed-p pkg)	 
-	       (unless refreshed
-		 (message "%s" "Emacs is refreshing Melpa packages...")
-		 (package-refresh-contents)
-		 (setf refreshed t)
-		 (message "%s" " done."))
-	       (package-install pkg)))
-	   packages)))
+        "Install all packages in packages list."
+        (let ((refreshed nil))
+          (mapc
+           (lambda (pkg)
+             (unless (package-installed-p pkg)
+               (unless refreshed
+                 (message "%s" "Emacs is refreshing Melpa packages...")
+                 (package-refresh-contents)
+                 (setf refreshed t)
+                 (message "%s" " done."))
+               (package-install pkg)))
+           packages)))
 
       ;; install packages in the following list
-      (melpa-install-packages '(				
-				ag
-				anzu
-				avy
-				browse-kill-ring
-				color
-				crux
-				diff-hl
-				diminish
-				discover-my-major
-				easy-kill
-				editorconfig
-				eldoc
-				epl
-				expand-region
-				flycheck
-				gist
-				guru-mode
-				helm-descbinds
-				hl-todo
+      (melpa-install-packages '(
+                                ag
+                                anzu
+                                avy
+                                browse-kill-ring
+                                color
+                                crux
+                                diff-hl
+                                diminish
+                                discover-my-major
+                                easy-kill
+                                editorconfig
+                                eldoc
+                                epl
+                                expand-region
+                                flycheck
+                                gist
+                                guru-mode
+                                helm-descbinds
+                                hl-todo
 
-				imenu-anywhere
-				magit
-				move-text
-				nlinum
-				operate-on-number
-				paredit
-				projectile
-				prop-menu
-				rainbow-delimiters
-				slime
-				smartparens
-				smartrep
-				super-save
-				undo-tree
-				use-package
-				volatile-highlights
-				
-				zenburn-theme
-				zop-to-char
-				))
+                                imenu-anywhere
+                                magit
+                                move-text
+                                nlinum
+                                operate-on-number
+                                paredit
+                                projectile
+                                prop-menu
+                                rainbow-delimiters
+                                slime
+                                smartparens
+                                smartrep
+                                super-save
+                                undo-tree
+                                use-package
+                                volatile-highlights
+
+                                zenburn-theme
+                                zop-to-char
+                                ))
     #+end_src
 
 
-   
+
 *** Use package config
     #+begin_src emacs-lisp
       (eval-when-compile
@@ -141,18 +141,18 @@
 *** Bind key
 
     Use package needs bind key
-    
+
     #+begin_src emacs-lisp
       (use-package bind-key
 	:ensure t
 	:config
 	(add-to-list 'same-window-buffer-names "*Personal Keybindings*"))
     #+end_src
-    
+
 *** Recent files
 
     This is at the top because we want it to work even if smething further down fails.
-   
+
     #+begin_src emacs-lisp
       (use-package recentf
 	:init
@@ -183,14 +183,14 @@
 *** Helm descbinds
     #+begin_src emacs-lisp
       (use-package helm-descbinds
-	:bind ("C-h b" . helm-descbinds))  
+	:bind ("C-h b" . helm-descbinds))
     #+end_src
-    
+
 *** y-or-n-p
     #+begin_src emacs-lisp
       (fset 'yes-or-no-p 'y-or-n-p)
     #+end_src
-    
+
 *** some shortcuts
     #+begin_src emacs-lisp
 
@@ -207,9 +207,9 @@
 (global-set-key (kbd "<f12>") 'menu-bar-mode)
 
     #+end_src
-    
+
 *** More settings from prelude init
-    
+
 **** Big file warning
      #+begin_src emacs-lisp
        ;; warn when opening files bigger than 100MB
@@ -222,7 +222,7 @@
        (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
        (ignore-errors (load custom-file)) ;; It may not yet exist.
      #+end_src
-    
+
 **** Inhibit showing of splash screen
      #+begin_src emacs-lisp
        ;; "Don't show splash screen"
@@ -257,9 +257,9 @@
      #+end_src
 
 *** Emacs server
-    
+
     Allow access from emacsclient
-    
+
     #+begin_src emacs-lisp
       (require 'server)
       (add-hook 'after-init-hook
@@ -278,28 +278,28 @@
 						"%b"))))
     #+end_src
 
-    
+
 *** Which key
     #+begin_example emacs-lisp
       (use-package which-key
         :ensure t
         :config
-	(which-key-mode +1))  
+	(which-key-mode +1))
     #+end_example
-    
+
 *** Turn off tool bar
     #+begin_src emacs-lisp
       (tool-bar-mode -1)
     #+end_src
 
-*** Autocompletion - ivy   
+*** Autocompletion - ivy
 **** Ivy
 https://dev.to/deciduously/how-i-emacs-and-so-can-you-packages-m9p
 #+begin_src emacs-lisp
 
   ;; (use-package ivy
   ;;   :ensure t				;make sure ivy is installed
-  ;;   :diminish 
+  ;;   :diminish
   ;;   :init (ivy-mode 1)			;globally at startup
   ;;   :config
   ;;   (setq ivy-use-virtual-buffers t)
@@ -425,7 +425,7 @@ Pop up menu
 *** Cleanup 80
 
     Needs polish TODO
-    
+
     #+begin_src emacs-lisp
       (defun cleanup-80 ()
 	(interactive)
@@ -442,7 +442,7 @@ Pop up menu
 
 *** Graph arrow
     Insert -> in the buffer.
-    
+
     #+begin_src emacs-lisp
       (defun insert-graph-arrow ()
 	(interactive)
@@ -454,7 +454,7 @@ Pop up menu
 **** Org mode configuration
 
       https://fortelabs.co/blog/building-a-second-brain-in-emacs-and-org-mode/
-      
+
 ***** org-roam
 #+begin_src emacs-lisp
   ;; Org-Roam basic configuration
@@ -471,7 +471,7 @@ Pop up menu
     (setq org-roam-completion-everywhere t)
     :bind (("C-c n f" . org-roam-node-find)
            ("C-c n g" . org-roam-graph)
-           ("C-c n r" . org-roam-node-random)		    
+           ("C-c n r" . org-roam-node-random)
            (:map org-mode-map
                  (("C-c n i" . org-roam-node-insert)
                   ("C-c n o" . org-id-get-create)
@@ -481,7 +481,7 @@ Pop up menu
 #+end_src
 
 ***** pdf link to page index
-    
+
      #+BEGIN_SRC emacs-lisp
        (require 'org)
        (org-link-set-parameters "pdf" 'org-pdf-open nil)
@@ -531,13 +531,13 @@ Pop up menu
     #+begin_src emacs-lisp
   (use-package idris2-mode
     :load-path "vendor/idris2-mode"
-    
-    )  
+
+    )
     #+end_src
 
-    
+
 **** Lisp
-    
+
 ***** Emasc Lisp
 TODO add code for nicer ielm experiemce
 
@@ -548,7 +548,7 @@ We need to use path like this
   (use-package jacek-verse
     :load-path "modules/"
     :bind ("<f5>" . verse-link)
-    )  
+    )
 #+end_src
 
 ***** Clojure
@@ -565,7 +565,7 @@ We need to use path like this
   #+END_SRC
 
 
- 
+
 ***** Slime
  #+BEGIN_SRC emacs-lisp
    ;;; this code has been responsible for slime version problem
@@ -590,8 +590,8 @@ We need to use path like this
 								  (seq-subseq x 0 folder-length))) )
 					   (directory-files "~/.emacs.d/elpa")))))
        (concat "~/.emacs.d/elpa/" slime-folder "/contrib/")))
- 
- 
+
+
 
    ;;; copy last s-expression to repl
    ;;; useful for expressions like (in-package #:whatever)
@@ -763,15 +763,14 @@ We need to use path like this
 
 ** The end
    #+begin_src emacs-lisp
-     ;; put frequency of garbage collection back to normal     
+     ;; put frequency of garbage collection back to normal
      (setq gc-cons-threshold  800000)
 
      (message "\nthe end of literal config\n")
    #+end_src
-   
+
 ** tip of the day
-   
+
    #+begin_src emacs-lisp
      (message "M-x describe-personal-keybindings will show keybindings defined in use-package user configuration.")
    #+end_src
-   
