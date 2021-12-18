@@ -60,10 +60,10 @@
       ;; accessing a package repo over https on Windows is a no go, so we
       ;; fallback to http there
       (if (eq system-type 'windows-nt)
-          (add-to-list 'package-archives
-                       '("melpa" . "http://melpa.org/packages/") t)
-        (add-to-list 'package-archives
-                     '("melpa" . "https://melpa.org/packages/") t))
+	  (add-to-list 'package-archives
+		       '("melpa" . "http://melpa.org/packages/") t)
+	(add-to-list 'package-archives
+		     '("melpa" . "https://melpa.org/packages/") t))
 
       ;; set package-user-dir to be relative to init.el path
       (setq package-user-dir (expand-file-name "elpa" init-dir))
@@ -71,61 +71,61 @@
       (require 'package)
 
       (defun melpa-install-packages (packages)
-        "Install all packages in packages list."
-        (let ((refreshed nil))
-          (mapc
-           (lambda (pkg)
-             (unless (package-installed-p pkg)
-               (unless refreshed
-                 (message "%s" "Emacs is refreshing Melpa packages...")
-                 (package-refresh-contents)
-                 (setf refreshed t)
-                 (message "%s" " done."))
-               (package-install pkg)))
-           packages)))
+	"Install all packages in packages list."
+	(let ((refreshed nil))
+	  (mapc
+	   (lambda (pkg)
+	     (unless (package-installed-p pkg)
+	       (unless refreshed
+		 (message "%s" "Emacs is refreshing Melpa packages...")
+		 (package-refresh-contents)
+		 (setf refreshed t)
+		 (message "%s" " done."))
+	       (package-install pkg)))
+	   packages)))
 
       ;; install packages in the following list
       (melpa-install-packages '(
-                                ag
-                                anzu
-                                avy
-                                browse-kill-ring
-                                color
-                                crux
-                                diff-hl
-                                diminish
-                                discover-my-major
-                                easy-kill
-                                editorconfig
-                                eldoc
-                                epl
-                                expand-region
-                                flycheck
-                                gist
-                                guru-mode
-                                helm-descbinds
-                                hl-todo
+				ag
+				anzu
+				avy
+				browse-kill-ring
+					      ;color
+				crux
+				diff-hl
+				diminish
+				discover-my-major
+				easy-kill
+				editorconfig
+				eldoc
+				epl
+				expand-region
+				flycheck
+				gist
+				guru-mode
+				helm-descbinds
+				hl-todo
 
-                                imenu-anywhere
-                                magit
-                                move-text
-                                nlinum
-                                operate-on-number
-                                paredit
-                                projectile
-                                prop-menu
-                                rainbow-delimiters
-                                slime
-                                smartparens
-                                smartrep
-                                super-save
-                                undo-tree
-                                use-package
-                                volatile-highlights
+				imenu-anywhere
+				magit
+				move-text
+				nlinum
+				operate-on-number
+				paredit
+				projectile
+				prop-menu
+				rainbow-delimiters
+				slime
+				smartparens
+				smartrep
+				super-save
+				undo-tree
+				use-package
+				volatile-highlights
 
-                                zenburn-theme
-                                zop-to-char
-                                ))
+				zenburn-theme
+				zop-to-char
+				))
     #+end_src
 
 
@@ -340,24 +340,24 @@ Improved C-s search
   ;;    ))
 #+end_src
 
-*** Autocompletion - ido
+*** COMMENT Autocompletion - ido
 #+begin_src emacs-lisp
-    (use-package ido
-      :ensure t
-      :config
-      (setq ido-enable-prefix nil
-	    ido-enable-flex-matching t
-	    ido-create-new-buffer 'always
-	    ido-use-filename-at-point 'guess
-	    ido-max-prospects 10
-	    ido-save-directory-list-file (expand-file-name "ido.hist" experimental-savefile-dir)
-	    ido-default-file-method 'selected-window
-	    ido-auto-merge-work-directories-length -1)
-      (ido-mode +1)
-      (ido-ubiquitous-mode +1)
-      (setq ido-use-faces nil)
+  ;; (use-package ido
+  ;;   :ensure t
+  ;;   :config
+  ;;   (setq ido-enable-prefix nil
+  ;; 	ido-enable-flex-matching t
+  ;; 	ido-create-new-buffer 'always
+  ;; 	ido-use-filename-at-point 'guess
+  ;; 	ido-max-prospects 10
+  ;; 	ido-save-directory-list-file (expand-file-name "ido.hist" experimental-savefile-dir)
+  ;; 	ido-default-file-method 'selected-window
+  ;; 	ido-auto-merge-work-directories-length -1)
+  ;;   (ido-mode +1)
+  ;;   (ido-ubiquitous-mode +1)
+  ;;   (setq ido-use-faces nil)
 
-      )
+  ;;   )
 #+end_src
 
 #+begin_src emacs-lisp
@@ -367,12 +367,13 @@ Improved C-s search
    )
 #+end_src
 
+flx-ido is not available
 #+begin_src emacs-lisp
-    (use-package flx-ido
-      :ensure t
-      :config
-      (flx-ido-mode +1)
-     )
+  ;; (use-package flx-ido
+  ;;   :ensure t
+  ;;   :config
+  ;;   (flx-ido-mode +1)
+  ;;  )
 #+end_src
 
 #+begin_src emacs-lisp
@@ -456,28 +457,29 @@ Pop up menu
       https://fortelabs.co/blog/building-a-second-brain-in-emacs-and-org-mode/
 
 ***** org-roam
+      can not use on windows without sqlite
 #+begin_src emacs-lisp
-  ;; Org-Roam basic configuration
-  (setq org-directory (concat (getenv "HOME") "/Documents/org-roam/"))
+  ;; ;; Org-Roam basic configuration
+  ;; (setq org-directory (concat (getenv "HOME") "/Documents/org-roam/"))
 
-  (use-package org-roam
-    :ensure t
-    :after org
-    :init (setq org-roam-v2-ack t) ;; Acknowledge V2 upgrade
-    :custom
-    (org-roam-directory (file-truename org-directory))
-    :config
-    (org-roam-db-autosync-enable)
-    (setq org-roam-completion-everywhere t)
-    :bind (("C-c n f" . org-roam-node-find)
-           ("C-c n g" . org-roam-graph)
-           ("C-c n r" . org-roam-node-random)
-           (:map org-mode-map
-                 (("C-c n i" . org-roam-node-insert)
-                  ("C-c n o" . org-id-get-create)
-                  ("C-c n t" . org-roam-tag-add)
-                  ("C-c n a" . org-roam-alias-add)
-                  ("C-c n l" . org-roam-buffer-toggle)))))
+  ;; (use-package org-roam
+  ;;   :ensure t
+  ;;   :after org
+  ;;   :init (setq org-roam-v2-ack t) ;; Acknowledge V2 upgrade
+  ;;   :custom
+  ;;   (org-roam-directory (file-truename org-directory))
+  ;;   :config
+  ;;   (org-roam-db-autosync-enable)
+  ;;   (setq org-roam-completion-everywhere t)
+  ;;   :bind (("C-c n f" . org-roam-node-find)
+  ;;          ("C-c n g" . org-roam-graph)
+  ;;          ("C-c n r" . org-roam-node-random)
+  ;;          (:map org-mode-map
+  ;;                (("C-c n i" . org-roam-node-insert)
+  ;;                 ("C-c n o" . org-id-get-create)
+  ;;                 ("C-c n t" . org-roam-tag-add)
+  ;;                 ("C-c n a" . org-roam-alias-add)
+  ;;                 ("C-c n l" . org-roam-buffer-toggle)))))
 #+end_src
 
 ***** pdf link to page index
@@ -528,11 +530,12 @@ Pop up menu
 **** Idris
 
 
+     can not load
     #+begin_src emacs-lisp
-  (use-package idris2-mode
-    :load-path "vendor/idris2-mode"
+      ;; (use-package idris2-mode
+      ;;   :load-path "vendor/idris2-mode"
 
-    )
+      ;;   )
     #+end_src
 
 
