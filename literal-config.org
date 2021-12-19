@@ -138,6 +138,16 @@
       (require 'bind-key)                ;; if you use any :bind variant
     #+end_src
 
+*** parsec
+Parsec is needed for verse parsing
+
+#+begin_src emacs-lisp
+  (use-package parsec
+    :ensure t
+    :config
+    )
+#+end_src
+
 *** Bind key
 
     Use package needs bind key
