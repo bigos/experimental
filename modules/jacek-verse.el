@@ -7,6 +7,8 @@
 
 ;; This file is not part of GNU Emacs.
 
+;; Package-Requires: ((dash "2.19.1") ido-completing-read+ parsec)
+
 ;;; Commentary:
 
 ;; Some basic functionality for adding Bible verse links
@@ -29,8 +31,46 @@
 ;; Boston, MA 02110-1301, USA.
 
 ;;; Code:
-;(require 'ido-completing-read+)
+(require 'cl)
+(require 'ido-completing-read+)
+(require 'parsec)
 
+; (load "~/.emacs.d/modules/jacek-verse.el")
+
+(defun verse-parse-line (str)
+  "Parse STR to get verse components."
+  (let ((pre-parsed (parsec-with-input (reverse str)
+                      (parsec-collect
+                       (parsec-many-s (parsec-str " "))
+                       (parsec-many1-s (parsec-digit))
+                       (parsec-str ":")
+                       (parsec-many1-s (parsec-digit))
+                       (parsec-many-s (parsec-str " "))
+                       (parsec-many-s (parsec-letter))
+                       (parsec-many-s (parsec-str " "))
+                       (parsec-optional
+                        (parsec-or
+                         (parsec-str "1")
+                         (parsec-str "2")
+                         (parsec-str "3")))
+                       (parsec-many-s (parsec-str " "))))))
+    ;; (print (format "preparsed %S" pre-parsed))
+    (let ((final-spaces   (nth 0 pre-parsed))
+          (ver      (reverse (nth 1 pre-parsed)))
+          (chap     (reverse (nth 3 pre-parsed)))
+          (book     (reverse (nth 5 pre-parsed)))
+          (book-num (reverse (nth 7 pre-parsed))))
+      (list :initial-spaces (if book-num ; correct for variant w/o book number
+                                (nth 8 pre-parsed)
+                              (nth 6 pre-parsed))
+            :book-num book-num
+            :book book
+            :chapter chap
+            :verse ver
+            :final-spaces final-spaces
+            :all (reverse (apply 'concat pre-parsed))))))
+
+;; ------------------------------------------------
 (defun verse-books ()
   "List of Bible books and abbreviations."
   '(("Genesis" "Ge") ("Exodus" "Ex") ("Leviticus" "Le") ("Numbers" "Nu") ("Deuteronomy" "De")
@@ -54,70 +94,67 @@
 (defun verse-books-numbered ()
   "Bible books with numbers."
   (let ((c 0))
-    (-map (lambda (x) (cl-incf c) (cons c x)) (verse-books))))
+    (-map (lambda (x) (incf c) (cons c x)) (verse-books))))
 
-(defun verse-previous-verse-separator ()
-  "Find verse separator."
-  (interactive)
-  (search-backward ":")
-  (point))
 
+;; (load "~/.emacs.d/modules/jacek-verse.el")
 (defun verse-link ()
   "Find components."
   (interactive)
-  
-  
+  ;; enable mode for ido-completing-read+
+  (ido-ubiquitous-mode 1)
   (let* ((cpoint (point))
-         (cseparator (verse-previous-verse-separator))
-         (chapt-ends (1- cseparator))
-         (chapt-starts chapt-ends))
-    (while (/= 32 (char-after chapt-starts)) (cl-incf chapt-starts -1))
-    (let* ((cspace-ends chapt-starts)
-           (cspace-starts cspace-ends))
-      (while (= 32 (char-after cspace-starts)) (cl-incf cspace-starts -1))
-      (let* ((book-ends cspace-starts)
-             (book-starts book-ends))
-        (while (/= 32 (char-after book-starts)) (cl-incf book-starts -1))
-        (let* ((bspace-ends book-starts)
-               (bspace-starts bspace-ends))
-          (while (= 32 (char-after bspace-starts)) (cl-incf bspace-starts -1))
-          (let* ((bnumber-ends  bspace-starts)
-                 (bnumber-starts bnumber-ends))
-            (while (/= 32 (char-after bnumber-starts)) (cl-incf bnumber-starts -1))
+         (bpoint (progn (beginning-of-line) (point)))
+         (the-line (buffer-substring-no-properties bpoint cpoint))
+         (parsed (verse-parse-line the-line)))
+    ;; (print (format ">>> parsed is %S for >%s<" parsed the-line))
 
-            (let* ((book-number (buffer-substring (1+ bnumber-starts) (1+ bnumber-ends)))
-                   (book-name (capitalize (buffer-substring  (1+ book-starts)  (1+ book-ends))))
-                   (chapter (buffer-substring  (1+ chapt-starts) (1+ chapt-ends)))
-                   (verse (string-trim
-                           (buffer-substring (1+ cseparator) cpoint)))
-                   (long-books (-map 'car (verse-books)))
-                   (link-book (if (member book-name long-books)
-                                  book-name                                
-				(ivy-read  (format "select correction for %S: " book-name)
-					   long-books
-					   :initial-input book-name))))
-              (goto-char cpoint)
-              ;; print debugging information
-              ;; TODO add handling for book with numbers
-              (print
-               (list 'verse-components
-                     'book-number book-number
-                     'book book-name
-                     'chapter chapter
-                     'verse verse))
-              (replace-region-contents (1+ book-starts) cpoint
-                                       (lambda ()
-                                         (verse-page-link link-book chapter verse)))
-              (goto-char (1+ cpoint)))))))))
+    (let* ((book-name (string-trim
+                       (concat
+                        (plist-get parsed :book-num)
+                        " "
+                        (capitalize
+                         (plist-get parsed :book)))))
+           (chapter (plist-get parsed :chapter))
+           (verse (plist-get parsed :verse))
+           (long-books (-map 'car (verse-books)))
+           (link-book (if (member book-name long-books)
+                          book-name
+                        (ido-completing-read+ (format "select correction for %S" book-name)
+                                              long-books
+                                              nil
+                                              t
+                                              book-name))))
+      (goto-char cpoint)
 
-(defun verse-page-link (book-name chapter verse)
-  "Take strings BOOK-NAME CHAPTER and VERSE to create a string for org link."
+      (let ((startpoint (search-backward (plist-get parsed :all)))
+            (vpl (verse-page-link link-book chapter verse
+                                  (plist-get parsed :initial-spaces)
+                                  (plist-get parsed :final-spaces))))
+        ;(print (format "going to replace with >%S<" vpl))
+        (replace-region-contents (+ 0 startpoint)
+                                 (+ 0 cpoint)
+                                 (lambda () vpl)))
+      (goto-char (1+ cpoint))
+      (search-forward "]]")
+      (forward-char (length (plist-get parsed :final-spaces))))))
+
+(defun verse-page-link (book-name chapter verse initial-spaces final-spaces)
+  "Take strings BOOK-NAME CHAPTER and VERSE to create a string for org link obeying the INITIAL-SPACES and FINAL-SPACES."
   (let ((book-name-number (caar (-filter (lambda (x)
-                                           (cl-equalp book-name (cadr x)))
+                                           (equalp book-name (cadr x)))
                                          (verse-books-numbered)))))
-    (format "[[https://wol.jw.org/en/wol/b/r1/lp-e/nwtsty/%d/%s#v=%d:%s:%s][%s %s:%s]]"
-            book-name-number chapter book-name-number chapter verse
-            book-name chapter verse )))
+    (format "%s[[https://wol.jw.org/en/wol/b/r1/lp-e/nwtsty/%d/%s#v=%d:%s:%s][%s %s:%s]]%s"
+            initial-spaces
+            book-name-number
+            chapter
+            book-name-number
+            chapter
+            verse
+            book-name
+            chapter
+            verse
+            final-spaces)))
 
 (provide 'jacek-verse)
 ;;; jacek-verse.el ends here
