@@ -60,10 +60,10 @@
       ;; accessing a package repo over https on Windows is a no go, so we
       ;; fallback to http there
       (if (eq system-type 'windows-nt)
-	  (add-to-list 'package-archives
-		       '("melpa" . "http://melpa.org/packages/") t)
-	(add-to-list 'package-archives
-		     '("melpa" . "https://melpa.org/packages/") t))
+          (add-to-list 'package-archives
+                       '("melpa" . "http://melpa.org/packages/") t)
+        (add-to-list 'package-archives
+                     '("melpa" . "https://melpa.org/packages/") t))
 
       ;; set package-user-dir to be relative to init.el path
       (setq package-user-dir (expand-file-name "elpa" init-dir))
@@ -71,61 +71,62 @@
       (require 'package)
 
       (defun melpa-install-packages (packages)
-	"Install all packages in packages list."
-	(let ((refreshed nil))
-	  (mapc
-	   (lambda (pkg)
-	     (unless (package-installed-p pkg)
-	       (unless refreshed
-		 (message "%s" "Emacs is refreshing Melpa packages...")
-		 (package-refresh-contents)
-		 (setf refreshed t)
-		 (message "%s" " done."))
-	       (package-install pkg)))
-	   packages)))
+        "Install all packages in packages list."
+        (let ((refreshed nil))
+          (mapc
+           (lambda (pkg)
+             (unless (package-installed-p pkg)
+               (unless refreshed
+                 (message "%s" "Emacs is refreshing Melpa packages...")
+                 (package-refresh-contents)
+                 (setf refreshed t)
+                 (message "%s" " done."))
+               (package-install pkg)))
+           packages)))
 
       ;; install packages in the following list
       (melpa-install-packages '(
-				ag
-				anzu
-				avy
-				browse-kill-ring
-					      ;color
-				crux
-				diff-hl
-				diminish
-				discover-my-major
-				easy-kill
-				editorconfig
-				eldoc
-				epl
-				expand-region
-				flycheck
-				gist
-				guru-mode
-				helm-descbinds
-				hl-todo
+                                ag
+                                anzu
+                                avy
+                                browse-kill-ring
+                                              ;color
+                                crux
+                                diff-hl
+                                diminish
+                                discover-my-major
+                                easy-kill
+                                editorconfig
+                                eldoc
+                                epl
+                                expand-region
+                                flycheck
+                                gist
+                                guru-mode
+                                helm-descbinds
+                                hl-todo
 
-				imenu-anywhere
-				magit
-				move-text
-				nlinum
-				operate-on-number
-				paredit
-				projectile
-				prop-menu
-				rainbow-delimiters
-				slime
-				smartparens
-				smartrep
-				super-save
-				undo-tree
-				use-package
-				volatile-highlights
+                                imenu-anywhere
+                                magit
+                                move-text
+                                nlinum
+                                operate-on-number
+                                paredit
+                                parsec
+                                projectile
+                                prop-menu
+                                rainbow-delimiters
+                                slime
+                                smartparens
+                                smartrep
+                                super-save
+                                undo-tree
+                                use-package
+                                volatile-highlights
 
-				zenburn-theme
-				zop-to-char
-				))
+                                zenburn-theme
+                                zop-to-char
+                                ))
     #+end_src
 
 
@@ -137,16 +138,6 @@
       (require 'diminish)                ;; if you use :diminish
       (require 'bind-key)                ;; if you use any :bind variant
     #+end_src
-
-*** parsec
-Parsec is needed for verse parsing
-
-#+begin_src emacs-lisp
-  (use-package parsec
-    :ensure t
-    :config
-    )
-#+end_src
 
 *** Bind key
 
