@@ -60,10 +60,10 @@
       ;; accessing a package repo over https on Windows is a no go, so we
       ;; fallback to http there
       (if (eq system-type 'windows-nt)
-          (add-to-list 'package-archives
-                       '("melpa" . "http://melpa.org/packages/") t)
-        (add-to-list 'package-archives
-                     '("melpa" . "https://melpa.org/packages/") t))
+	  (add-to-list 'package-archives
+		       '("melpa" . "http://melpa.org/packages/") t)
+	(add-to-list 'package-archives
+		     '("melpa" . "https://melpa.org/packages/") t))
 
       ;; set package-user-dir to be relative to init.el path
       (setq package-user-dir (expand-file-name "elpa" init-dir))
@@ -71,62 +71,64 @@
       (require 'package)
 
       (defun melpa-install-packages (packages)
-        "Install all packages in packages list."
-        (let ((refreshed nil))
-          (mapc
-           (lambda (pkg)
-             (unless (package-installed-p pkg)
-               (unless refreshed
-                 (message "%s" "Emacs is refreshing Melpa packages...")
-                 (package-refresh-contents)
-                 (setf refreshed t)
-                 (message "%s" " done."))
-               (package-install pkg)))
-           packages)))
+	"Install all packages in packages list."
+	(let ((refreshed nil))
+	  (mapc
+	   (lambda (pkg)
+	     (unless (package-installed-p pkg)
+	       (unless refreshed
+		 (message "%s" "Emacs is refreshing Melpa packages...")
+		 (package-refresh-contents)
+		 (setf refreshed t)
+		 (message "%s" " done."))
+	       (package-install pkg)))
+	   packages)))
 
+      (when nil
       ;; install packages in the following list
       (melpa-install-packages '(
-                                ag
-                                anzu
-                                avy
-                                browse-kill-ring
-                                              ;color
-                                crux
-                                diff-hl
-                                diminish
-                                discover-my-major
-                                easy-kill
-                                editorconfig
-                                eldoc
-                                epl
-                                expand-region
-                                flycheck
-                                gist
-                                guru-mode
-                                helm-descbinds
-                                hl-todo
+				ag
+				anzu
+				avy
+				browse-kill-ring
+					      ;color
+				crux
+				diff-hl
+				diminish
+				discover-my-major
+				easy-kill
+				editorconfig
+				eldoc
+				epl
+				expand-region
+				flycheck
+				gist
+				guru-mode
+				helm-descbinds
+				hl-todo
 
-                                imenu-anywhere
-                                magit
-                                move-text
-                                nlinum
-                                operate-on-number
-                                paredit
-                                parsec
-                                projectile
-                                prop-menu
-                                rainbow-delimiters
-                                slime
-                                smartparens
-                                smartrep
-                                super-save
-                                undo-tree
-                                use-package
-                                volatile-highlights
+				imenu-anywhere
+				magit
+				move-text
+				nlinum
+				operate-on-number
+				paredit
+				parsec
+				projectile
+				prop-menu
+				rainbow-delimiters
+				slime
+				smartparens
+				smartrep
+				super-save
+				undo-tree
+				use-package
+				volatile-highlights
 
-                                zenburn-theme
-                                zop-to-char
-                                ))
+				zenburn-theme
+				zop-to-char
+				))
+      )
     #+end_src
 
 
@@ -572,43 +574,68 @@ We need to use path like this
 
 ***** Slime
  #+BEGIN_SRC emacs-lisp
-   ;;; this code has been responsible for slime version problem
-   (defvar slime-helper-el "~/quicklisp/slime-helper.el")
-   (when (file-exists-p slime-helper-el)
-     (load (expand-file-name slime-helper-el)))
+            ;;; this code has been responsible for slime version problem
+            (defvar slime-helper-el "~/quicklisp/slime-helper.el")
+            (when (file-exists-p slime-helper-el)
+              (load (expand-file-name slime-helper-el)))
 
-   (require 'slime)
-   (require 'slime-repl)
-   (require 'slime-autoloads)
+            (require 'slime)
+            (require 'slime-repl)
+            (require 'slime-autoloads)
 
-   (setq slime-contribs '(slime-fancy slime-fancy-inspector))
+            (setq slime-contribs '(slime-fancy slime-fancy-inspector))
 
-   (setq inferior-lisp-program "/usr/local/bin/sbcl")
+            (setq inferior-lisp-program "/usr/local/bin/sbcl")
 
-   (defun slime-contrib-directory ()
-     (let* ((slime-folder-prefix "slime-20")
-	    (folder-length (length slime-folder-prefix))
-	    (slime-folder (car (seq-filter (lambda(x) (and (>= (length x)
-							       folder-length)
-							   (equal slime-folder-prefix
-								  (seq-subseq x 0 folder-length))) )
-					   (directory-files "~/.emacs.d/elpa")))))
-       (concat "~/.emacs.d/elpa/" slime-folder "/contrib/")))
+            (defun slime-contrib-directory ()
+              (let* ((slime-folder-prefix "slime-20")
+                     (folder-length (length slime-folder-prefix))
+                     (slime-folder (car (seq-filter (lambda(x) (and (>= (length x)
+                                                                        folder-length)
+                                                                    (equal slime-folder-prefix
+                                                                           (seq-subseq x 0 folder-length))) )
+                                                    (directory-files "~/.emacs.d/elpa")))))
+                (concat "~/.emacs.d/elpa/" slime-folder "/contrib/")))
 
 
 
-   ;;; copy last s-expression to repl
-   ;;; useful for expressions like (in-package #:whatever)
-   ;;; alternatively you can use C-c ~ with cursor after (in-package :some-package)
-   ;;; https://www.reddit.com/r/lisp/comments/ehs12v/copying_last_expression_to_repl_in_emacsslime/
+            ;;; copy last s-expression to repl
+            ;;; useful for expressions like (in-package #:whatever)
+            ;;; alternatively you can use C-c ~ with cursor after (in-package :some-package)
+            ;;; https://www.reddit.com/r/lisp/comments/ehs12v/copying_last_expression_to_repl_in_emacsslime/
 
-   (defun slime-copy-last-expression-to-repl (string)
-     (interactive (list (slime-last-expression)))
-     (slime-switch-to-output-buffer)
-     (goto-char (point-max))
-     (insert string))
+            (defun slime-copy-last-expression-to-repl (string)
+              (interactive (list (slime-last-expression)))
+              (slime-switch-to-output-buffer)
+              (goto-char (point-max))
+              (insert string))
 
-   (global-set-key (kbd "s-e") 'slime-copy-last-expression-to-repl)
+            (global-set-key (kbd "s-e") 'slime-copy-last-expression-to-repl)
+
+                                                ;================================
+   ;; 	;; Add fancy slime contribs
+   ;; 	(setq slime-contribs '(slime-fancy slime-cl-indent))
+
+   ;; 	(setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol
+   ;; 	      slime-fuzzy-completion-in-place t
+   ;; 	      slime-enable-evaluate-in-emacs t
+   ;; 	      slime-autodoc-use-multiline-p t)
+
+   ;; 	;; rainbow-delimeters messes up colors in slime-repl, and doesn't seem to work
+   ;; 	;; anyway, so we won't use prelude-lisp-coding-defaults.
+   ;; 	(add-hook 'slime-repl-mode-hook (lambda ()
+   ;; 					  (smartparens-strict-mode +1)
+   ;; 					  (whitespace-mode -1)))
+
+   ;; ;; enable on-the-fly syntax checking
+   ;; (if (fboundp 'global-flycheck-mode)
+   ;;     (global-flycheck-mode +1)
+   ;;   (add-hook 'prog-mode-hook 'flycheck-mode))
+
+   ;; (when (and (executable-find ispell-program-name)
+   ;; 	   prelude-flyspell)
+   ;;   (flyspell-prog-mode))
+
  #+END_SRC
 
 ***** Paredit
