@@ -27,3 +27,6 @@ bookmarks
 # org mode
 .org-id-locations
 org-roam.db
+
+server/*
+network-security.data
