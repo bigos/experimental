@@ -343,22 +343,22 @@ Improved C-s search
 
 *** COMMENT Autocompletion - ido
 #+begin_src emacs-lisp
-  ;; (use-package ido
-  ;;   :ensure t
-  ;;   :config
-  ;;   (setq ido-enable-prefix nil
-  ;; 	ido-enable-flex-matching t
-  ;; 	ido-create-new-buffer 'always
-  ;; 	ido-use-filename-at-point 'guess
-  ;; 	ido-max-prospects 10
-  ;; 	ido-save-directory-list-file (expand-file-name "ido.hist" experimental-savefile-dir)
-  ;; 	ido-default-file-method 'selected-window
-  ;; 	ido-auto-merge-work-directories-length -1)
-  ;;   (ido-mode +1)
-  ;;   (ido-ubiquitous-mode +1)
-  ;;   (setq ido-use-faces nil)
+  (use-package ido
+    :ensure t
+    :config
+    (setq ido-enable-prefix nil
+          ido-enable-flex-matching t
+          ido-create-new-buffer 'always
+          ido-use-filename-at-point 'guess
+          ido-max-prospects 10
+          ido-save-directory-list-file (expand-file-name "ido.hist" experimental-savefile-dir)
+          ido-default-file-method 'selected-window
+          ido-auto-merge-work-directories-length -1)
+    (ido-mode +1)
+    (ido-ubiquitous-mode +1)
+    (setq ido-use-faces nil)
 
-  ;;   )
+    )
 #+end_src
 
 #+begin_src emacs-lisp
@@ -541,7 +541,7 @@ Pop up menu
 
 
 **** Lisp
-
+- The missing lisp autocompletion can be for now resolved with C-c M-i
 ***** Emasc Lisp
 TODO add code for nicer ielm experiemce
 
