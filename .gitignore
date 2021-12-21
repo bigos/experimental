@@ -30,4 +30,5 @@ org-roam.db
 
 server/*
 network-security.data
-eshell/*
+eshell/history
+eshell/lastdir

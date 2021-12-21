@@ -590,8 +590,9 @@ https://github.com/bbatsov/emacs-dev-kit/blob/master/common-lisp-config.el
       (setq slime-contribs '(slime-fancy slime-fancy-inspector))
 
    ;;; switch depending on OS
-   ;; (setq inferior-lisp-program "sbcl")
-   (setq inferior-lisp-program "sbcl.exe")
+   (setq inferior-lisp-program (if (equal system-type 'windoes-nt)
+                                   "sbcl.exe"
+                                 "sbcl"))
 
       (defun slime-contrib-directory ()
         (let* ((slime-folder-prefix "slime-20")
@@ -616,7 +617,7 @@ https://github.com/bbatsov/emacs-dev-kit/blob/master/common-lisp-config.el
         (goto-char (point-max))
         (insert string))
 
-      (global-set-key (kbd "s-e") 'slime-copy-last-expression-to-repl)
+      (global-set-key (kbd "C-c C-3") 'slime-copy-last-expression-to-repl)
 
       (eval-after-load "slime"
         '(progn
