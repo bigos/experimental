@@ -68,7 +68,10 @@
       ;; set package-user-dir to be relative to init.el path
       (setq package-user-dir (expand-file-name "elpa" init-dir))
 
-      (require 'package)
+      (require 'package) 
+      (unless (package-installed-p 'use-package)
+        (package-refresh-contents)
+        (package-install 'use-package))
 
       (defun melpa-install-packages (packages)
         "Install all packages in packages list."
