@@ -44,7 +44,7 @@
 **** savefile
      #+begin_src emacs-lisp
        (defvar experimental-savefile-dir (expand-file-name "savefile" init-dir)
-	 "This directory houses packages that are not yet available in ELPA (or MELPA).")
+	 "This directory NEEDS CORRECTION.")
 
        (add-to-list 'load-path experimental-savefile-dir)
      #+end_src
@@ -125,7 +125,7 @@
                                   smartrep
                                   super-save
                                   undo-tree
-                                  use-package
+                                  ;; use-package comes by default with Emacs 29
                                   volatile-highlights
 
                                   zenburn-theme
