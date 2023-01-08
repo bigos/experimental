@@ -32,3 +32,6 @@ server/*
 network-security.data
 eshell/history
 eshell/lastdir
+
+tramp
+tree-sitter/
