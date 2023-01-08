@@ -70,7 +70,7 @@
                                   guru-mode
                                   helm-descbinds
                                   hl-todo
-                                  ido-completing-read+
+
                                   imenu-anywhere
                                   magit
                                   move-text
@@ -551,11 +551,14 @@ We need to use path like this
 
 #+begin_src emacs-lisp
   (use-package jacek-verse
+    :commands jacek-verse
+    :init
+    (melpa-install-packages '(ido-completing-read+))
     :load-path "modules/"
     :bind ("<f5>" . verse-link)
     )
 #+end_src
-
+ 
 **** Clojure
   #+BEGIN_SRC emacs-lisp
     (add-to-list 'auto-mode-alist '("\\.edn\\'" . clojure-mode))
