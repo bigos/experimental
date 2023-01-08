@@ -13,44 +13,7 @@
      (setq gc-cons-threshold 50000000)
    #+end_src
 
-** Config
-
-*** Define folders
-    In init.el we alredy have defined ~init-dir~ folder.
-
-**** core
-     #+begin_src emacs-lisp
-       (defvar experimental-core-dir (expand-file-name "core" init-dir)
-	 "The core functionality.")
-
-       (add-to-list 'load-path experimental-core-dir)
-     #+end_src
-
-**** modules
-     #+begin_src emacs-lisp
-       (defvar experimental-modules-dir (expand-file-name  "modules" init-dir)
-	 "This is the folder for Experimental modules.")
-
-       (add-to-list 'load-path experimental-modules-dir )
-     #+end_src
-**** vendor
-     #+begin_src emacs-lisp
-       (defvar experimental-vendor-dir (expand-file-name "vendor" init-dir)
-	 "This directory houses packages that are not yet available in ELPA (or MELPA).")
-
-       (add-to-list 'load-path experimental-vendor-dir)
-     #+end_src
-
-**** savefile
-     #+begin_src emacs-lisp
-       (defvar experimental-savefile-dir (expand-file-name "savefile" init-dir)
-	 "This directory NEEDS CORRECTION.")
-
-       (add-to-list 'load-path experimental-savefile-dir)
-     #+end_src
-
-**** require selected modules
-     This will allow for un/commenting required modules
+** essential packages
 
 *** Load some Melpa packages
 
@@ -70,7 +33,6 @@
       ;; set package-user-dir to be relative to init.el path
       (setq package-user-dir (expand-file-name "elpa" init-dir))
 
-      (require 'package) 
       (unless (package-installed-p 'use-package)
 	(package-refresh-contents)
 	(package-install 'use-package))
@@ -111,7 +73,7 @@
 				  guru-mode
 				  helm-descbinds
 				  hl-todo
-
+				  ido-completing-read+
 				  imenu-anywhere
 				  magit
 				  move-text
@@ -138,6 +100,44 @@
 
     #+end_src
 
+** Config
+
+*** Define folders
+    In init.el we alredy have defined ~init-dir~ folder.
+
+**** core
+     #+begin_src emacs-lisp
+       (defvar experimental-core-dir (expand-file-name "core" init-dir)
+	 "The core functionality.")
+
+       (add-to-list 'load-path experimental-core-dir)
+     #+end_src
+
+**** modules
+     #+begin_src emacs-lisp
+       (defvar experimental-modules-dir (expand-file-name  "modules" init-dir)
+	 "This is the folder for Experimental modules.")
+
+       (add-to-list 'load-path experimental-modules-dir )
+     #+end_src
+**** vendor
+     #+begin_src emacs-lisp
+       (defvar experimental-vendor-dir (expand-file-name "vendor" init-dir)
+	 "This directory houses packages that are not yet available in ELPA (or MELPA).")
+
+       (add-to-list 'load-path experimental-vendor-dir)
+     #+end_src
+
+**** savefile
+     #+begin_src emacs-lisp
+       (defvar experimental-savefile-dir (expand-file-name "savefile" init-dir)
+	 "This directory NEEDS CORRECTION.")
+
+       (add-to-list 'load-path experimental-savefile-dir)
+     #+end_src
+
+**** require selected modules
+     This will allow for un/commenting required modules
 
 
 *** Use package config
@@ -806,3 +806,5 @@ https://github.com/bbatsov/emacs-dev-kit/blob/master/common-lisp-config.el
    #+begin_src emacs-lisp
      (message "M-x describe-personal-keybindings will show keybindings defined in use-package user configuration.")
    #+end_src
+
+
