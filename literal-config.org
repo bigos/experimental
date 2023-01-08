@@ -48,51 +48,59 @@
                (package-install pkg)))
            packages)))
 
-      (when t
-        ;; install packages in the following list
-        (melpa-install-packages '(
-                                  ag
-                                  anzu
-                                  avy
-                                  browse-kill-ring
-                                              ;color
-                                  crux
-                                  diff-hl
-                                  diminish
-                                  discover-my-major
-                                  easy-kill
-                                  editorconfig
-                                  eldoc
-                                  epl
-                                  expand-region
-                                  flycheck
-                                  gist
-                                  guru-mode
-                                  helm-descbinds
-                                  hl-todo
-
-                                  imenu-anywhere
-                                  magit
-                                  move-text
-                                  nlinum
-                                  operate-on-number
-                                  paredit
-                                  parsec
-                                  projectile
-                                  prop-menu
-                                  rainbow-delimiters
-                                  slime
-                                  smartparens
-                                  smartrep
-                                  super-save
-                                  undo-tree
-                                  ;; use-package comes by default with Emacs 29
-                                  volatile-highlights
-
-                                  zenburn-theme
-                                  zop-to-char)))
     #+end_src
 
+** list of packages
+This is the list of packages to install. Remember, installing packages from melpa does not mean loading the into  Emacs.
+
+#+begin_src emacs-lisp
+  (when t
+    ;; install packages in the following list
+    (melpa-install-packages '(
+                              ag
+                              anzu
+                              avy
+                              browse-kill-ring
+                                          ;color
+                              crux
+                              diff-hl
+                              diminish
+                              discover-my-major
+                              easy-kill
+                              editorconfig
+                              eldoc
+                              epl
+                              expand-region
+                              flycheck
+                              gist
+                              guru-mode
+
+                              helm-descbinds
+                              hl-todo
+                              
+                              imenu-anywhere
+                              magit
+                              move-text
+                              nlinum
+                              operate-on-number
+                              paredit
+                              parsec
+                              projectile
+                              prop-menu
+                              rainbow-delimiters
+                              slime
+                              smartparens
+                              smartrep
+                              super-save
+                              undo-tree
+                              ;; use-package comes by default with Emacs 29
+                              volatile-highlights
+
+                              zenburn-theme
+                              zop-to-char)))
+
+#+end_src
+    
 ** Config
 
 *** Define folders
@@ -133,13 +141,7 @@
      This will allow for un/commenting required modules
 
 
-*** Use package config
-    #+begin_src emacs-lisp
-      (eval-when-compile
-	(require 'use-package))
-      (require 'diminish)                ;; if you use :diminish
-      (require 'bind-key)                ;; if you use any :bind variant
-    #+end_src
+
 
 *** Bind key
 
@@ -186,6 +188,7 @@
 *** Helm descbinds
     #+begin_src emacs-lisp
       (use-package helm-descbinds
+	:ensure t
 	:bind ("C-h b" . helm-descbinds))
     #+end_src
 
@@ -789,13 +792,6 @@ https://github.com/bbatsov/emacs-dev-kit/blob/master/common-lisp-config.el
 
  #+END_SRC
 
-** The end
-   #+begin_src emacs-lisp
-     ;; put frequency of garbage collection back to normal
-     (setq gc-cons-threshold  800000)
-
-     (message "\nthe end of literal config\n")
-   #+end_src
 
 ** tip of the day
 
@@ -803,4 +799,10 @@ https://github.com/bbatsov/emacs-dev-kit/blob/master/common-lisp-config.el
      (message "M-x describe-personal-keybindings will show keybindings defined in use-package user configuration.")
    #+end_src
 
+** The end
+   #+begin_src emacs-lisp
+     ;; put frequency of garbage collection back to normal
+     (setq gc-cons-threshold  800000)
 
+     (message "\nthe end of literal config\n")
+   #+end_src

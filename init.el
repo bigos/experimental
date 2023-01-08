@@ -3,10 +3,6 @@
 
 (defvar org-config (expand-file-name "literal-config.org" init-dir)
   "Path to the literal configuration..")
-(defvar elc-config (expand-file-name "literal-config.elc" init-dir)
-  "Path to the tangled and compiled configuration.")
-
-
 
 (org-babel-load-file
  org-config
@@ -22,4 +18,4 @@
 
 
 
-(put 'upcase-region 'disabled nil)
+
