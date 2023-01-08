@@ -96,7 +96,8 @@ melpa does not mean loading the into  Emacs.
                               undo-tree
                               ;; use-package comes by default with Emacs 29
                               volatile-highlights
-                              vterm-toggle 
+                              vterm-toggle
+                              yafolding
                               zenburn-theme
                               zop-to-char)))
 
