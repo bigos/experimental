@@ -51,7 +51,8 @@
     #+end_src
 
 ** list of packages
-This is the list of packages to install. Remember, installing packages from melpa does not mean loading the into  Emacs.
+This is the list of packages to install. Remember, installing packages from
+melpa does not mean loading the into  Emacs.
 
 #+begin_src emacs-lisp
   (when t
@@ -72,12 +73,12 @@ This is the list of packages to install. Remember, installing packages from melp
                               epl
                               expand-region
                               flycheck
+                              flx-ido
                               gist
                               guru-mode
-
+                              ido-completing-read+
                               helm-descbinds
                               hl-todo
-                              
                               imenu-anywhere
                               magit
                               move-text
@@ -366,20 +367,13 @@ Improved C-s search
     )
 #+end_src
 
-#+begin_src emacs-lisp
-  (use-package ido-completing-read+
-    :ensure t
-    :config
-   )
-#+end_src
-
 flx-ido is not available
 #+begin_src emacs-lisp
-  ;; (use-package flx-ido
-  ;;   :ensure t
-  ;;   :config
-  ;;   (flx-ido-mode +1)
-  ;;  )
+  (use-package flx-ido
+    :ensure t
+    :config
+    (flx-ido-mode +1)
+   )
 #+end_src
 
 #+begin_src emacs-lisp
@@ -555,8 +549,6 @@ We need to use path like this
 #+begin_src emacs-lisp
   (use-package jacek-verse
     :commands jacek-verse
-    :init
-    (melpa-install-packages '(ido-completing-read+))
     :load-path "modules/"
     :bind ("<f5>" . verse-link)
     )
