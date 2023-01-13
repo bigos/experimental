@@ -92,6 +92,7 @@ melpa does not mean loading the into  Emacs.
                               slime
                               smartparens
                               smartrep
+                              smex
                               super-save
                               undo-tree
                               ;; use-package comes by default with Emacs 29
@@ -346,6 +347,14 @@ Improved C-s search
   ;;    ("<f2> i"  . counsel-info-lookup-symbol)
   ;;    ("<f2> u"  . counsel-unicode-char)
   ;;    ))
+#+end_src
+
+*** smex
+#+begin_src emacs-lisp
+  (global-set-key (kbd "M-x") 'smex)
+  (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+  ;; This is your old M-x.
+  (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 #+end_src
 
 *** COMMENT Autocompletion - ido
