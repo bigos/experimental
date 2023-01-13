@@ -13,9 +13,9 @@
      (setq gc-cons-threshold 50000000)
    #+end_src
 
-** essential packages
+** install packages
 
-*** Load some Melpa packages
+*** Melpa packages
 
     Define package source and load some desired packages when neccesay.
 
