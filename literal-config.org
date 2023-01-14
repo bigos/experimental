@@ -45,10 +45,8 @@
                  (message "%s" "Emacs is refreshing Melpa packages...")
                  (package-refresh-contents)
                  (setf refreshed t)
-                 (message "%s" " done."))
-               (progn
-                 (package-install pkg)
-                 (message "installed package %s" pkg))))
+                 (message "%s" " done."))         
+               (package-install pkg)))
            packages)))
 
     #+end_src
@@ -72,6 +70,7 @@ melpa does not mean loading the into  Emacs.
                               discover-my-major
                               easy-kill
                               editorconfig
+                              ef-themes
                               eldoc
                               epl
                               expand-region
