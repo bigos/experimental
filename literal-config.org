@@ -104,6 +104,7 @@ melpa does not mean loading the into  Emacs.
                               undo-tree                                
                               volatile-highlights
                               vterm-toggle
+                              which-key
                               whitespace
                               yafolding
                               zenburn-theme
@@ -297,11 +298,14 @@ melpa does not mean loading the into  Emacs.
 
 
 *** Which key
+This package provides helpful prompts for key shortcuts.
+https://github.com/justbur/emacs-which-key
+
     #+begin_example emacs-lisp
       (use-package which-key
         :ensure t
         :config
-	(which-key-mode +1))
+	(which-key-mode))
     #+end_example
 
 *** Turn off tool bar
