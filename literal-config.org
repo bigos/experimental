@@ -115,7 +115,6 @@ melpa does not mean loading the into  Emacs.
 #+end_src
 
 ** Functions
-
 *** graph arrow
 #+begin_src emacs-lisp
   (defun insert-graph-arrow ()
@@ -140,7 +139,6 @@ melpa does not mean loading the into  Emacs.
 
   (global-set-key (kbd "s-8") 'cleanup-80)
 #+end_src
-
 
 ** Config
  
