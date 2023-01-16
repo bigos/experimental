@@ -89,7 +89,7 @@ melpa does not mean loading the into  Emacs.
                               magit
                               move-text
                               operate-on-number
-                              origami
+                              ;; origami can't make it work, amy stick to yafolding 
                               paredit
                               parsec
                               projectile
@@ -436,26 +436,33 @@ Pop up menu
 *** Origami
 
 #+begin_src emacs-lisp
-  (use-package origami
-    :ensure nil
-    :bind (("C-c o c a" . origami-close-all-nodes)
-           ("C-c o c n" . origami-close-node)
-           ("C-c o c r" . origami-close-node-recursively)
-           ("C-c o f f" . origami-forward-fold)
-           ("C-c o f s" . origami-forward-fold-same-level)
-           ("C-c o f t" . origami-forward-toggle-node)
-           ("C-c o f n" . origami-next-fold)
-           ("C-c o N" . origami-open-all-nodes)
-           ("C-c o n" . origami-open-node)
-           ("C-c o m" . origami-open-node-recursively)
-           ("C-c o f p" . origami-previous-fold)
-           ("C-c o r d" . origami-redo)
-           ("C-c o r s" . origami-reset)
-           ("C-c o s n" . origami-show-node)
-           ("C-c o s o" . origami-show-only-node)
-           ("C-c o t a" . origami-toggle-all-nodes)
-           ("C-c o t n" . origami-toggle-node)
-           ("C-c o u" . origami-undo)))
+  ;; (use-package origami
+  ;;   :ensure t
+  ;;   :bind (("C-c o C" . origami-close-all-nodes)
+  ;;          ("C-c o c" . origami-close-node)
+  ;;          ("C-c o x" . origami-close-node-recursively)
+
+  ;;          ("C-c o f" . origami-forward-fold)
+  ;;          ("C-c o F" . origami-forward-fold-same-level)
+  ;;          ("C-c o g" . origami-forward-toggle-node)
+
+  ;;          ("C-c o n" . origami-next-fold)
+
+  ;;          ("C-c o J" .   origami-open-all-nodes)
+  ;;          ("C-c o j" .   origami-open-node)
+  ;;          ("C-c o m" .   origami-open-node-recursively)
+
+  ;;          ("C-c o p" . origami-previous-fold)
+
+  ;;          ("C-c o r" . origami-redo)
+  ;;          ("C-c o R" . origami-reset)
+
+  ;;          ("C-c o s" . origami-show-node)
+  ;;          ("C-c o S" . origami-show-only-node)
+
+  ;;          ("C-c o T" . origami-toggle-all-nodes)
+  ;;          ("C-c o t" . origami-toggle-node)
+  ;;          ("C-c o u" .   origami-undo)))
 #+end_src
 
 *** Add mode flashing in overwrite
