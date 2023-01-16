@@ -319,16 +319,16 @@ https://github.com/justbur/emacs-which-key
 **** Ivy
 https://dev.to/deciduously/how-i-emacs-and-so-can-you-packages-m9p
 #+begin_src emacs-lisp
-  (use-package ivy
-    :ensure t				;make sure ivy is installed
-    :diminish
-    :init (ivy-mode 1)			;globally at startup
-    :config
-    (setq ivy-use-virtual-buffers t)
-    (setq enable-recursive-minibuffers t)
-    (setq ivy-height 20)
-    (setq ivy-count-format "%d/%d ")
-    :bind ("C-c C-r" . ivy-resume))
+  ;; (use-package ivy
+  ;;   :ensure t				;make sure ivy is installed
+  ;;   :diminish
+  ;;   :init (ivy-mode 1)			;globally at startup
+  ;;   :config
+  ;;   (setq ivy-use-virtual-buffers t)
+  ;;   (setq enable-recursive-minibuffers t)
+  ;;   (setq ivy-height 20)
+  ;;   (setq ivy-count-format "%d/%d ")
+  ;;   :bind ("C-c C-r" . ivy-resume))
 #+end_src
 
 

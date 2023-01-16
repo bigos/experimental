@@ -35,3 +35,7 @@ eshell/lastdir
 
 tramp
 tree-sitter/
+
+.emacs.desktop
+.emacs.desktop.lock
+places
