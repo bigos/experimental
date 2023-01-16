@@ -76,6 +76,7 @@ melpa does not mean loading the into  Emacs.
                               editorconfig
                               ef-themes
                               eldoc
+                              elm-mode
                               epl
                               expand-region
                               flx-ido
@@ -113,8 +114,36 @@ melpa does not mean loading the into  Emacs.
 
 #+end_src
 
-** Config
+** Functions
 
+*** graph arrow
+#+begin_src emacs-lisp
+  (defun insert-graph-arrow ()
+  (interactive)
+  (insert " -> "))
+#+end_src
+
+*** Cleanup 80
+
+    Needs polish TODO
+
+#+begin_src emacs-lisp
+  (defun cleanup-80 ()
+    (interactive)
+    (beginning-of-line)
+    (forward-char 80)
+    (forward-word)
+    (backward-word)
+
+    ;; insert new line char
+    (newline-and-indent))
+
+  (global-set-key (kbd "s-8") 'cleanup-80)
+#+end_src
+
+
+** Config
+ 
 *** Define folders
     In init.el we alredy have defined ~init-dir~ folder.
 
@@ -152,9 +181,6 @@ melpa does not mean loading the into  Emacs.
 **** require selected modules
      This will allow for un/commenting required modules
 
-
-
-
 *** Bind key
 
     Use package needs bind key
@@ -173,7 +199,7 @@ melpa does not mean loading the into  Emacs.
     #+begin_src emacs-lisp
       (use-package recentf
         :init
-        (setq recentf-max-menu-items 50
+        (setq recentf-max-menu-items 20
               recentf-auto-cleanup 'never
               recentf-keep '(file-remote-p file-readable-p))
         (recentf-mode 1)
@@ -477,34 +503,8 @@ Pop up menu
       (add-hook 'overwrite-mode-hook #'(lambda () (double-flash-mode-line)))
     #+end_src
 
-*** Cleanup 80
 
-    Needs polish TODO
 
-    #+begin_src emacs-lisp
-      (defun cleanup-80 ()
-        (interactive)
-        (beginning-of-line)
-        (forward-char 80)
-        (forward-word)
-        (backward-word)
-
-        ;; insert new line char
-        (newline-and-indent))
-
-      (global-set-key (kbd "s-8") 'cleanup-80)
-    #+end_src
-
-*** Graph arrow
-    Insert -> in the buffer.
-
-    #+begin_src emacs-lisp
-      (defun insert-graph-arrow ()
-        (interactive)
-        (insert " -> "))
-
-      (global-set-key (kbd "s-]") 'insert-graph-arrow)
-    #+end_src
 
 *** Org mode configuration
 
@@ -592,7 +592,14 @@ Pop up menu
       ;;   )
     #+end_src
 
+*** Elm
+#+begin_src emacs-lisp
+  (add-hook 'elm-mode-hook 'elm-format-on-save-mode)
+  (add-hook 'elm-mode-hook
+            #'(lambda ()
+                (local-set-key (kbd "C-]") 'insert-graph-arrow)))
 
+#+end_src
 *** Lisp
 - The missing lisp autocompletion can be for now resolved with C-c M-i
 **** Emasc Lisp
