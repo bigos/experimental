@@ -96,7 +96,7 @@ melpa does not mean loading the into  Emacs.
                               projectile
                               prop-menu
                               rainbow-delimiters
-                              slime
+                              ;; slime
                               smartparens
                               smartrep
                               smex
