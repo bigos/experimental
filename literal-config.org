@@ -533,68 +533,73 @@ We need to use path like this
   #+END_SRC
 
 
+**** Sly
+http://joaotavora.github.io/sly/#Introduction
+
+#+begin_src emacs-lisp
+  (setq inferior-lisp-program "/usr/local/bin/sbcl")
+#+end_src
 
 **** Slime
 ideas for config
 https://github.com/bbatsov/emacs-dev-kit/blob/master/common-lisp-config.el
 
  #+BEGIN_SRC emacs-lisp
-   (when nil
-   ;;; this code has been responsible for slime version problem
-     (defvar slime-helper-el "~/quicklisp/slime-helper.el")
-     (when (file-exists-p slime-helper-el)
-       (load (expand-file-name slime-helper-el)))
+   ;; (when nil
+   ;; ;;; this code has been responsible for slime version problem
+   ;;   (defvar slime-helper-el "~/quicklisp/slime-helper.el")
+   ;;   (when (file-exists-p slime-helper-el)
+   ;;     (load (expand-file-name slime-helper-el)))
 
-     (require 'slime)
-     (require 'slime-repl)
-     (require 'slime-autoloads)
+   ;;   (require 'slime)
+   ;;   (require 'slime-repl)
+   ;;   (require 'slime-autoloads)
 
-     (setq slime-contribs '(slime-fancy slime-fancy-inspector))
+   ;;   (setq slime-contribs '(slime-fancy slime-fancy-inspector))
 
-   ;;; switch depending on OS
-     (setq inferior-lisp-program (if (equal system-type 'windows-nt)
-                                     "sbcl.exe"
-                                   "sbcl"))
+   ;; ;;; switch depending on OS
+   ;;   (setq inferior-lisp-program (if (equal system-type 'windows-nt)
+   ;;                                   "sbcl.exe"
+   ;;                                 "sbcl"))
 
-     (defun slime-contrib-directory ()
-       (let* ((slime-folder-prefix "slime-20")
-              (folder-length (length slime-folder-prefix))
-              (slime-folder (car (seq-filter (lambda(x) (and (>= (length x)
-                                                                 folder-length)
-                                                             (equal slime-folder-prefix
-                                                                    (seq-subseq x 0 folder-length))) )
-                                             (directory-files "~/.emacs.d/elpa")))))
-         (concat "~/.emacs.d/elpa/" slime-folder "/contrib/")))
-
-
-
-   ;;; copy last s-expression to repl
-   ;;; useful for expressions like (in-package #:whatever)
-   ;;; alternatively you can use C-c ~ with cursor after (in-package :some-package)
-   ;;; https://www.reddit.com/r/lisp/comments/ehs12v/copying_last_expression_to_repl_in_emacsslime/
-
-     (defun slime-copy-last-expression-to-repl (string)
-       (interactive (list (slime-last-expression)))
-       (slime-switch-to-output-buffer)
-       (goto-char (point-max))
-       (insert string))
-
-     (global-set-key (kbd "C-c C-3") 'slime-copy-last-expression-to-repl)
-
-     (eval-after-load "slime"
-       '(progn
-          (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol
-                slime-fuzzy-completion-in-place t
-                slime-enable-evaluate-in-emacs t
-                slime-autodoc-use-multiline-p t
-                tab-always-indent 'complete)
+   ;;   (defun slime-contrib-directory ()
+   ;;     (let* ((slime-folder-prefix "slime-20")
+   ;;            (folder-length (length slime-folder-prefix))
+   ;;            (slime-folder (car (seq-filter (lambda(x) (and (>= (length x)
+   ;;                                                               folder-length)
+   ;;                                                           (equal slime-folder-prefix
+   ;;                                                                  (seq-subseq x 0 folder-length))) )
+   ;;                                           (directory-files "~/.emacs.d/elpa")))))
+   ;;       (concat "~/.emacs.d/elpa/" slime-folder "/contrib/")))
 
 
-          (define-key slime-mode-map (kbd "C-c i") 'slime-inspect)
-          (define-key slime-mode-map (kbd "C-c C-s") 'slime-selector)
-          ))
 
-     )
+   ;; ;;; copy last s-expression to repl
+   ;; ;;; useful for expressions like (in-package #:whatever)
+   ;; ;;; alternatively you can use C-c ~ with cursor after (in-package :some-package)
+   ;; ;;; https://www.reddit.com/r/lisp/comments/ehs12v/copying_last_expression_to_repl_in_emacsslime/
+
+   ;;   (defun slime-copy-last-expression-to-repl (string)
+   ;;     (interactive (list (slime-last-expression)))
+   ;;     (slime-switch-to-output-buffer)
+   ;;     (goto-char (point-max))
+   ;;     (insert string))
+
+   ;;   (global-set-key (kbd "C-c C-3") 'slime-copy-last-expression-to-repl)
+
+   ;;   (eval-after-load "slime"
+   ;;     '(progn
+   ;;        (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol
+   ;;              slime-fuzzy-completion-in-place t
+   ;;              slime-enable-evaluate-in-emacs t
+   ;;              slime-autodoc-use-multiline-p t
+   ;;              tab-always-indent 'complete)
+
+
+   ;;        (define-key slime-mode-map (kbd "C-c i") 'slime-inspect)
+   ;;        (define-key slime-mode-map (kbd "C-c C-s") 'slime-selector)
+   ;;        ))
+   ;;   )
  #+END_SRC
 
 **** Paredit

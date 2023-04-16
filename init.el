@@ -44,7 +44,7 @@
 (when t
   ;; install packages in the following list
   (melpa-install-packages '(
-					;ag
+			    ;;ag
                             ansi-color
                             anzu
                             avy
@@ -81,6 +81,7 @@
                             prop-menu
                             rainbow-delimiters
                             ;; slime
+                            sly
                             smartparens
                             smartrep
                             smex
