@@ -13,11 +13,12 @@
 ;; accessing a package repo over https on Windows is a no go, so we
 ;; fallback to http there
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+
 ;; Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`
 ;; and `package-pinned-packages`. Most users will not need or want to do this.
 ;;(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-(package-initialize)
 
+(package-initialize)
 (message "package archives used %s" package-archives)
 
 ;; set package-user-dir to be relative to init.el path
