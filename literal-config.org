@@ -15,10 +15,6 @@
      (setq gc-cons-threshold 50000000)
    #+end_src
 
-** install packages
-
-
-
 ** Functions
 *** graph arrow
 #+begin_src emacs-lisp
@@ -538,6 +534,10 @@ http://joaotavora.github.io/sly/#Introduction
 
 #+begin_src emacs-lisp
   (setq inferior-lisp-program "/usr/local/bin/sbcl")
+#+end_src
+
+#+begin_src emacs-lisp
+
 #+end_src
 
 **** Slime
