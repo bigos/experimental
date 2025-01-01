@@ -6,6 +6,14 @@
   https://emacs.takeokunn.org/
   https://github.com/protesilaos/dotfiles/tree/master/emacs/.emacs.d
 
+** Emergency use, fix nasty emacs bug
+In certain situations, esp on Windows, we have no acceess to packages because of broken gpg.
+Setting it to nil disables the check.
+
+#+begin_src emacs-lisp
+  (setq package-check-signature nil)
+#+end_src
+
 ** beginning
    #+begin_src emacs-lisp
      (message "\nbeginning of literal config")
@@ -22,7 +30,6 @@
   (interactive)
   (insert " -> "))
 #+end_src
-
 *** Cleanup 80
 
     Needs polish TODO
@@ -42,7 +49,85 @@
 #+end_src
 
 ** Config
- 
+
+*** init stuff melpa packages
+#+begin_src emacs-lisp
+      (require 'package)
+
+    ;; accessing a package repo over https on Windows is a no go, so we
+    ;; fallback to http there
+    (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+
+
+  ;; Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`
+  ;; and `package-pinned-packages`. Most users will not need or want to do this.
+  ;;(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+
+  (package-initialize)
+  (message "package archives used %s" package-archives)
+
+  ;; set package-user-dir to be relative to init.el path
+  (setq package-user-dir (expand-file-name "elpa" init-dir))
+
+        (defun melpa-install-packages (packages)
+          "Install all packages in packages list."
+          (let ((refreshed nil))
+            (mapc
+             (lambda (pkg)
+               (unless (package-installed-p pkg)
+                 (unless refreshed
+                   (message "%s" "Emacs is refreshing Melpa packages...")
+                   (package-refresh-contents)
+                   (setf refreshed t)
+                   (message "%s" " done."))
+                 (package-install pkg)))
+             packages)))
+
+        ;; This is the list of packages to install. Remember, installing packages from
+        ;; melpa does not mean loading the into  Emacs.
+
+        (when t
+          ;; install packages in the following list
+          (melpa-install-packages '(ansi-color
+                                    anzu
+                                    avy
+                                    browse-kill-ring
+                                    color
+                                    counsel
+                                    crux
+                                    diff-hl
+                                    diminish
+                                    discover-my-major
+                                    ef-themes
+                                    eldoc
+                                    epl
+                                    expand-region
+                                    flx-ido
+                                    flycheck
+                                    helm-core
+                                    helm-descbinds
+                                    ido-completing-read+
+                                    imenu-anywhere
+                                    magit
+                                    paredit
+                                    rainbow-delimiters
+                                    slime
+                                    smartparens
+                                    smartrep
+                                    smex
+                                    super-save
+                                    swiper
+                                    undo-tree
+                                    volatile-highlights
+                                    ;; vterm-toggle
+                                    which-key
+                                    whitespace
+                                    yafolding
+                                    ))
+          )
+
+#+end_src
+
 *** Define folders
     In init.el we alredy have defined ~init-dir~ folder.
 

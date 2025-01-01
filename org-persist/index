@@ -1,0 +1,9 @@
+((:container
+  ((elisp org-element--headline-cache)
+   (elisp org-element--cache))
+  :persist-file "a6/374f3b-93e2-416d-8a92-e850c462109c" :associated
+  (:hash "903658b57fe96525783e8c0086458b81" :file "c:/Users/jacek/AppData/Roaming/.emacs.d/literal-config.org" :inode 9851624185241586)
+  :expiry 30 :last-access 1735750731.470418 :last-access-hr "2025-01-01T16:58:51+0000")
+ (:container
+  ((index "3.1"))
+  :persist-file "ca/14aafd-11be-44db-b181-e0cfcf8ffd02" :associated nil :expiry never :last-access 1735750731.474987 :last-access-hr "2025-01-01T16:58:51+0000"))
