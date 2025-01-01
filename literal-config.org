@@ -6,7 +6,7 @@
   https://emacs.takeokunn.org/
   https://github.com/protesilaos/dotfiles/tree/master/emacs/.emacs.d
 
-** Emergency use, fix nasty emacs bug
+** Emergency use, fix nasty bug
 In certain situations, esp on Windows, we have no acceess to packages because of broken gpg.
 Setting it to nil disables the check.
 
