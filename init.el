@@ -9,6 +9,7 @@
 ;;(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 
 (package-initialize)
+(package-refresh-contents)
 (message "package archives used %s" package-archives)
 
 ;; set package-user-dir to be relative to init.el path
