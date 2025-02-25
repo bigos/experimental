@@ -22,6 +22,7 @@
 *** Cleanup 80
 
     Needs polish TODO
+    
 
 #+begin_src emacs-lisp
   (defun cleanup-80 ()
@@ -40,7 +41,6 @@
 ** Config
  
 *** Define folders
-    In init.el we alredy have defined ~user-emacs-directory~ folder.
 
 **** core
      #+begin_src emacs-lisp
@@ -93,7 +93,6 @@
 
         :bind ("s-r" . recentf-open-files))
     #+end_src
-
 
 *** y-or-n-p
     #+begin_src emacs-lisp
@@ -191,6 +190,7 @@ https://github.com/justbur/emacs-which-key
       (tool-bar-mode -1)
 #+end_src
 
+*** smex
 #+begin_src emacs-lisp
   (use-package smex
     :ensure t
@@ -293,36 +293,41 @@ We need to use path like this
     )
 #+end_src
 
-
 **** Paredit
+
+
  #+BEGIN_SRC emacs-lisp
+(use-package paredit
+    :ensure t
+    )
+
    (add-hook 'minibuffer-inactive-mode-hook #'paredit-mode)
-   (add-hook 'minibuffer-inactive-mode-hook #'rainbow-delimiters-mode)
+        (add-hook 'minibuffer-inactive-mode-hook #'rainbow-delimiters-mode)
 
-   (defun swap-paredit ()
-     "Replace smartparens with superior paredit."
-     (smartparens-mode -1)
-     (paredit-mode +1))
+        (defun swap-paredit ()
+          "Replace smartparens with superior paredit."
+          (smartparens-mode -1)
+          (paredit-mode +1))
 
-   (autoload 'paredit-mode "paredit"
-     "Minor mode for pseudo-structurally editing Lisp code." t)
-   (add-hook 'emacs-lisp-mode-hook (lambda () (swap-paredit)))
+        (autoload 'paredit-mode "paredit"
+          "Minor mode for pseudo-structurally editing Lisp code." t)
+        (add-hook 'emacs-lisp-mode-hook (lambda () (swap-paredit)))
 
-   (add-hook 'lisp-mode-hook (lambda () (swap-paredit)))
-   (add-hook 'lisp-interaction-mode-hook (lambda () (swap-paredit)))
+        (add-hook 'lisp-mode-hook (lambda () (swap-paredit)))
+        (add-hook 'lisp-interaction-mode-hook (lambda () (swap-paredit)))
 
-   (add-hook 'scheme-mode-hook (lambda () (swap-paredit)))
-   (add-hook 'geiser-repl-mode-hook (lambda () (swap-paredit)))
-   (add-hook 'geiser-repl-mode-hook 'rainbow-delimiters-mode)
+        (add-hook 'scheme-mode-hook (lambda () (swap-paredit)))
+        (add-hook 'geiser-repl-mode-hook (lambda () (swap-paredit)))
+        (add-hook 'geiser-repl-mode-hook 'rainbow-delimiters-mode)
 
-   (add-hook 'ielm-mode-hook (lambda () (swap-paredit)))
-   (add-hook 'ielm-mode-hook 'rainbow-delimiters-mode)
+        (add-hook 'ielm-mode-hook (lambda () (swap-paredit)))
+        (add-hook 'ielm-mode-hook 'rainbow-delimiters-mode)
 
-   (add-hook 'slime-repl-mode-hook (lambda () (swap-paredit)))
-   (add-hook 'slime-repl-mode-hook 'rainbow-delimiters-mode)
+        (add-hook 'slime-repl-mode-hook (lambda () (swap-paredit)))
+        (add-hook 'slime-repl-mode-hook 'rainbow-delimiters-mode)
 
-   (add-hook 'clojure-mode-hook (lambda () (swap-paredit)))
-   (add-hook 'cider-repl-mode-hook (lambda () (swap-paredit)))
+        (add-hook 'clojure-mode-hook (lambda () (swap-paredit)))
+        (add-hook 'cider-repl-mode-hook (lambda () (swap-paredit)))
  #+END_SRC
 
 **** The rest
