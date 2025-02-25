@@ -40,11 +40,11 @@
 ** Config
  
 *** Define folders
-    In init.el we alredy have defined ~init-dir~ folder.
+    In init.el we alredy have defined ~user-emacs-directory~ folder.
 
 **** core
      #+begin_src emacs-lisp
-       (defvar experimental-core-dir (expand-file-name "core" init-dir)
+       (defvar experimental-core-dir (expand-file-name "core" user-emacs-directory)
          "The core functionality.")
 
        (add-to-list 'load-path experimental-core-dir)
@@ -52,14 +52,14 @@
 
 **** modules
      #+begin_src emacs-lisp
-       (defvar experimental-modules-dir (expand-file-name  "modules" init-dir)
+       (defvar experimental-modules-dir (expand-file-name  "modules" user-emacs-directory)
          "This is the folder for Experimental modules.")
 
        (add-to-list 'load-path experimental-modules-dir )
      #+end_src
 **** vendor
      #+begin_src emacs-lisp
-       (defvar experimental-vendor-dir (expand-file-name "vendor" init-dir)
+       (defvar experimental-vendor-dir (expand-file-name "vendor" user-emacs-directory)
          "This directory houses packages that are not yet available in ELPA (or MELPA).")
 
        (add-to-list 'load-path experimental-vendor-dir)
@@ -67,7 +67,7 @@
 
 **** savefile
      #+begin_src emacs-lisp
-       (defvar experimental-savefile-dir (expand-file-name "savefile" init-dir)
+       (defvar experimental-savefile-dir (expand-file-name "savefile" user-emacs-directory)
          "This directory NEEDS CORRECTION.")
 
        (add-to-list 'load-path experimental-savefile-dir)

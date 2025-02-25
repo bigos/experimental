@@ -1,6 +1,3 @@
-(defvar init-dir (file-name-directory (or load-file-name
-                                          user-init-file))
-  "Directory of the Emacs config init.el.")
 
 ;; -----------------------------------------------------------------------------
 ;; Define package source.
@@ -15,7 +12,7 @@
 (message "package archives used %s" package-archives)
 
 ;; set package-user-dir to be relative to init.el path
-(setq package-user-dir (expand-file-name "elpa" init-dir))
+(setq package-user-dir (expand-file-name "elpa" user-emacs-directory))
 
 ;; -----------------------------------------------------------------------------
 
@@ -24,7 +21,7 @@
 
 
 ;; -----------------------------------------------------------------------------
-(defvar org-config (expand-file-name "literal-config.org" init-dir)
+(defvar org-config (expand-file-name "literal-config.org" user-emacs-directory)
   "Path to the literal configuration..")
 
 (org-babel-load-file org-config)
