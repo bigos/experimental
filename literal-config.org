@@ -6,21 +6,9 @@
   https://emacs.takeokunn.org/
   https://github.com/protesilaos/dotfiles/tree/master/emacs/.emacs.d
 
-** Emergency use, fix nasty bug
-In certain situations, esp on Windows, we have no acceess to packages because of broken gpg.
-Setting it to nil disables the check.
-
-#+begin_src emacs-lisp
-  (setq package-check-signature nil)
-#+end_src
-
 ** beginning
    #+begin_src emacs-lisp
      (message "\nbeginning of literal config")
-
-     ;; reduce the frequency of garbage collection by making it happen on
-     ;; each 50MB of allocated data (the default is on every 0.76MB)
-     (setq gc-cons-threshold 50000000)
    #+end_src
 
 ** Functions
@@ -30,6 +18,7 @@ Setting it to nil disables the check.
   (interactive)
   (insert " -> "))
 #+end_src
+
 *** Cleanup 80
 
     Needs polish TODO
@@ -49,85 +38,7 @@ Setting it to nil disables the check.
 #+end_src
 
 ** Config
-
-*** init stuff melpa packages
-#+begin_src emacs-lisp
-      (require 'package)
-
-    ;; accessing a package repo over https on Windows is a no go, so we
-    ;; fallback to http there
-    (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
-
-
-  ;; Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`
-  ;; and `package-pinned-packages`. Most users will not need or want to do this.
-  ;;(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-
-  (package-initialize)
-  (message "package archives used %s" package-archives)
-
-  ;; set package-user-dir to be relative to init.el path
-  (setq package-user-dir (expand-file-name "elpa" init-dir))
-
-        (defun melpa-install-packages (packages)
-          "Install all packages in packages list."
-          (let ((refreshed nil))
-            (mapc
-             (lambda (pkg)
-               (unless (package-installed-p pkg)
-                 (unless refreshed
-                   (message "%s" "Emacs is refreshing Melpa packages...")
-                   (package-refresh-contents)
-                   (setf refreshed t)
-                   (message "%s" " done."))
-                 (package-install pkg)))
-             packages)))
-
-        ;; This is the list of packages to install. Remember, installing packages from
-        ;; melpa does not mean loading the into  Emacs.
-
-        (when t
-          ;; install packages in the following list
-          (melpa-install-packages '(ansi-color
-                                    anzu
-                                    avy
-                                    browse-kill-ring
-                                    color
-                                    counsel
-                                    crux
-                                    diff-hl
-                                    diminish
-                                    discover-my-major
-                                    ef-themes
-                                    eldoc
-                                    epl
-                                    expand-region
-                                    flx-ido
-                                    flycheck
-                                    helm-core
-                                    helm-descbinds
-                                    ido-completing-read+
-                                    imenu-anywhere
-                                    magit
-                                    paredit
-                                    rainbow-delimiters
-                                    slime
-                                    smartparens
-                                    smartrep
-                                    smex
-                                    super-save
-                                    swiper
-                                    undo-tree
-                                    volatile-highlights
-                                    ;; vterm-toggle
-                                    which-key
-                                    whitespace
-                                    yafolding
-                                    ))
-          )
-
-#+end_src
-
+ 
 *** Define folders
     In init.el we alredy have defined ~init-dir~ folder.
 
@@ -165,17 +76,6 @@ Setting it to nil disables the check.
 **** require selected modules
      This will allow for un/commenting required modules
 
-*** Bind key
-
-    Use package needs bind key
-
-    #+begin_src emacs-lisp
-      (use-package bind-key
-        :ensure t
-        :config
-        (add-to-list 'same-window-buffer-names "*Personal Keybindings*"))
-    #+end_src
-
 *** Recent files
 
     This is at the top because we want it to work even if smething further down fails.
@@ -194,25 +94,6 @@ Setting it to nil disables the check.
         :bind ("s-r" . recentf-open-files))
     #+end_src
 
-*** Ace window
-    #+begin_src emacs-lisp
-                  (use-package ace-window
-                    :ensure t
-                    :init
-                    (custom-set-faces
-                     '(aw-leading-char-face
-                       ((t (:inherit ace-jump-face-foreground
-                                     :height 3.0
-                                     :foreground "red")))))
-                    :bind ("C-x o" . ace-window))
-    #+end_src
-
-*** Helm descbinds
-    #+begin_src emacs-lisp
-      (use-package helm-descbinds
-        :ensure t
-        :bind ("C-h b" . helm-descbinds))
-    #+end_src
 
 *** y-or-n-p
     #+begin_src emacs-lisp
@@ -222,27 +103,12 @@ Setting it to nil disables the check.
 *** some shortcuts
     #+begin_src emacs-lisp
 
-;; Font size
-(global-set-key (kbd "C-+") 'text-scale-increase)
-(global-set-key (kbd "C--") 'text-scale-decrease)
-
-;; Window switching. (C-x o goes to the next window)
-(global-set-key (kbd "C-x O") (lambda ()
-                                (interactive)
-                                (other-window -1))) ;; back one
-
 ;; toggle menu-bar visibility
 (global-set-key (kbd "<f12>") 'menu-bar-mode)
 
     #+end_src
 
 *** More settings from prelude init
-
-**** Big file warning
-     #+begin_src emacs-lisp
-       ;; warn when opening files bigger than 100MB
-       (setq large-file-warning-threshold 100000000)
-     #+end_src
 
 **** Location of customize settings
      #+begin_src emacs-lisp
@@ -325,90 +191,6 @@ https://github.com/justbur/emacs-which-key
       (tool-bar-mode -1)
 #+end_src
 
-*** Autocompletion - ivy
-**** Ivy
-https://dev.to/deciduously/how-i-emacs-and-so-can-you-packages-m9p
-#+begin_src emacs-lisp
-  ;; (use-package ivy
-  ;;   :ensure t				;make sure ivy is installed
-  ;;   :diminish
-  ;;   :init (ivy-mode 1)			;globally at startup
-  ;;   :config
-  ;;   (setq ivy-use-virtual-buffers t)
-  ;;   (setq enable-recursive-minibuffers t)
-  ;;   (setq ivy-height 20)
-  ;;   (setq ivy-count-format "%d/%d ")
-  ;;   :bind ("C-c C-r" . ivy-resume))
-#+end_src
-
-
-**** Swiper
-Improved C-s search
-#+begin_src emacs-lisp
-(use-package swiper
-    :ensure t
-    :bind ("C-s" . swiper))
-#+end_src
-
-**** Counsel
-#+begin_src emacs-lisp
-  ;; (use-package counsel
-  ;;   :ensure t
-  ;;   :bind*				;load when pressed
-  ;;   (
-  ;;    ("M-x"     . counsel-M-x)
-  ;;    ("C-x C-f" . counsel-find-file)
-  ;;    ("C-x C-r" . counsel-recentf)  ; search for recently edited
-  ;;    ("C-c g"   . counsel-git)      ; search for files in git repo
-  ;;    ("C-c j"   . counsel-git-grep) ; search for regexp in git repo
-  ;;    ("C-c /"   . counsel-ag)       ; Use ag for regexp
-  ;;    ("C-x l"   . counsel-locate)
-  ;;    ("C-x C-f" . counsel-find-file)
-  ;;    ("<f1> f"  . counsel-describe-function)
-  ;;    ("<f1> v"  . counsel-describe-variable)
-  ;;    ("<f1> l"  . counsel-find-library)
-  ;;    ("<f2> i"  . counsel-info-lookup-symbol)
-  ;;    ("<f2> u"  . counsel-unicode-char)
-  ;;    ))
-#+end_src
-
-*** smex
-#+begin_src emacs-lisp
-  (global-set-key (kbd "M-x") 'smex)
-  (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-  ;; This is your old M-x.
-  (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
-#+end_src
-
-*** COMMENT Autocompletion - ido
-#+begin_src emacs-lisp
-  (use-package ido
-    :ensure t
-    :config
-    (setq ido-enable-prefix nil
-          ido-enable-flex-matching t
-          ido-create-new-buffer 'always
-          ido-use-filename-at-point 'guess
-          ido-max-prospects 10
-          ido-save-directory-list-file (expand-file-name "ido.hist" experimental-savefile-dir)
-          ido-default-file-method 'selected-window
-          ido-auto-merge-work-directories-length -1)
-    (ido-mode +1)
-    (ido-ubiquitous-mode +1)
-    (setq ido-use-faces nil)
-
-    )
-#+end_src
-
-flx-ido is not available
-#+begin_src emacs-lisp
-  (use-package flx-ido
-    :ensure t
-    :config
-    (flx-ido-mode +1)
-   )
-#+end_src
-
 #+begin_src emacs-lisp
   (use-package smex
     :ensure t
@@ -443,38 +225,6 @@ Pop up menu
     )
 #+end_src
 
-*** Origami
-
-#+begin_src emacs-lisp
-  ;; (use-package origami
-  ;;   :ensure t
-  ;;   :bind (("C-c o C" . origami-close-all-nodes)
-  ;;          ("C-c o c" . origami-close-node)
-  ;;          ("C-c o x" . origami-close-node-recursively)
-
-  ;;          ("C-c o f" . origami-forward-fold)
-  ;;          ("C-c o F" . origami-forward-fold-same-level)
-  ;;          ("C-c o g" . origami-forward-toggle-node)
-
-  ;;          ("C-c o n" . origami-next-fold)
-
-  ;;          ("C-c o J" .   origami-open-all-nodes)
-  ;;          ("C-c o j" .   origami-open-node)
-  ;;          ("C-c o m" .   origami-open-node-recursively)
-
-  ;;          ("C-c o p" . origami-previous-fold)
-
-  ;;          ("C-c o r" . origami-redo)
-  ;;          ("C-c o R" . origami-reset)
-
-  ;;          ("C-c o s" . origami-show-node)
-  ;;          ("C-c o S" . origami-show-only-node)
-
-  ;;          ("C-c o T" . origami-toggle-all-nodes)
-  ;;          ("C-c o t" . origami-toggle-node)
-  ;;          ("C-c o u" .   origami-undo)))
-#+end_src
-
 *** Add mode flashing in overwrite
     #+begin_src emacs-lisp
       (defun double-flash-mode-line ()
@@ -486,8 +236,6 @@ Pop up menu
 
       (add-hook 'overwrite-mode-hook #'(lambda () (double-flash-mode-line)))
     #+end_src
-
-
 
 
 *** Org mode configuration
@@ -520,61 +268,6 @@ Pop up menu
   ;;                 ("C-c n l" . org-roam-buffer-toggle)))))
 #+end_src
 
-**** pdf link to page index
-
-     #+BEGIN_SRC emacs-lisp
-       (require 'org)
-       (org-link-set-parameters "pdf" 'org-pdf-open nil)
-
-       (defun org-pdf-open (link)
-         "Where page number is 105, the link should look like:
-          [[pdf:/path/to/file.pdf#105][My description.]]"
-         (let* ((path+page (split-string link "#"))
-                (pdf-file (car path+page))
-                (page (car (cdr path+page))))
-           (start-process "view-pdf" nil "evince" "--page-index" page pdf-file)))
-     #+END_SRC
-
-
-
-**** link to a file and line
-      #+begin_src emacs-lisp
- (defun my-file-line-link ()
-   "Copy the buffer full path and line number into a clipboard
-                  for pasting into *.org file."
-   (interactive)
-   (let* ((home-part (concat "/home/"
-                             (user-login-name)))
-          (the-link
-           (let ((file-link
-                  (concat "file:"
-                          (let ((bfn buffer-file-name))
-                            (if (string-prefix-p home-part bfn)
-                                (concat "~"
-                                        (substring bfn (length home-part)))
-                              bfn))
-                          "::"
-                          (substring  (what-line) 5))))
-             (if (string-match " " file-link)
-                 (concat "[[" file-link "]]")
-               file-link))))
-     (kill-new
-      (message the-link))))
-
-        ;; we had to cheat to have s-\ as a shortcut
- (global-set-key (kbd (format "%s-%c" "s" 92)) 'my-file-line-link)
-      #+end_src
-
-*** Idris
-
-
-     can not load
-    #+begin_src emacs-lisp
-      ;; (use-package idris2-mode
-      ;;   :load-path "vendor/idris2-mode"
-
-      ;;   )
-    #+end_src
 
 *** Elm
 #+begin_src emacs-lisp
@@ -600,92 +293,6 @@ We need to use path like this
     )
 #+end_src
 
-**** Clojure
-  #+BEGIN_SRC emacs-lisp
-    (add-to-list 'auto-mode-alist '("\\.edn\\'" . clojure-mode))
-
-    (add-hook 'cider-repl-mode-hook
-              #'(lambda ()
-                 (local-set-key (kbd "C-c M-k") 'cider-repl-clear-buffer)))
-
-    (add-hook 'cider-repl-mode-hook
-              #'(lambda ()
-                 (local-set-key (kbd "C-c M-a") 'cider-load-all-files)))
-  #+END_SRC
-
-
-**** Sly
-http://joaotavora.github.io/sly/#Introduction
-
-#+begin_src emacs-lisp
-  (setq inferior-lisp-program "/usr/local/bin/sbcl")
-#+end_src
-
-#+begin_src emacs-lisp
-
-#+end_src
-
-**** Slime
-ideas for config
-https://github.com/bbatsov/emacs-dev-kit/blob/master/common-lisp-config.el
-
- #+BEGIN_SRC emacs-lisp
-   ;; (when nil
-   ;; ;;; this code has been responsible for slime version problem
-   ;;   (defvar slime-helper-el "~/quicklisp/slime-helper.el")
-   ;;   (when (file-exists-p slime-helper-el)
-   ;;     (load (expand-file-name slime-helper-el)))
-
-   ;;   (require 'slime)
-   ;;   (require 'slime-repl)
-   ;;   (require 'slime-autoloads)
-
-   ;;   (setq slime-contribs '(slime-fancy slime-fancy-inspector))
-
-   ;; ;;; switch depending on OS
-   ;;   (setq inferior-lisp-program (if (equal system-type 'windows-nt)
-   ;;                                   "sbcl.exe"
-   ;;                                 "sbcl"))
-
-   ;;   (defun slime-contrib-directory ()
-   ;;     (let* ((slime-folder-prefix "slime-20")
-   ;;            (folder-length (length slime-folder-prefix))
-   ;;            (slime-folder (car (seq-filter (lambda(x) (and (>= (length x)
-   ;;                                                               folder-length)
-   ;;                                                           (equal slime-folder-prefix
-   ;;                                                                  (seq-subseq x 0 folder-length))) )
-   ;;                                           (directory-files "~/.emacs.d/elpa")))))
-   ;;       (concat "~/.emacs.d/elpa/" slime-folder "/contrib/")))
-
-
-
-   ;; ;;; copy last s-expression to repl
-   ;; ;;; useful for expressions like (in-package #:whatever)
-   ;; ;;; alternatively you can use C-c ~ with cursor after (in-package :some-package)
-   ;; ;;; https://www.reddit.com/r/lisp/comments/ehs12v/copying_last_expression_to_repl_in_emacsslime/
-
-   ;;   (defun slime-copy-last-expression-to-repl (string)
-   ;;     (interactive (list (slime-last-expression)))
-   ;;     (slime-switch-to-output-buffer)
-   ;;     (goto-char (point-max))
-   ;;     (insert string))
-
-   ;;   (global-set-key (kbd "C-c C-3") 'slime-copy-last-expression-to-repl)
-
-   ;;   (eval-after-load "slime"
-   ;;     '(progn
-   ;;        (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol
-   ;;              slime-fuzzy-completion-in-place t
-   ;;              slime-enable-evaluate-in-emacs t
-   ;;              slime-autodoc-use-multiline-p t
-   ;;              tab-always-indent 'complete)
-
-
-   ;;        (define-key slime-mode-map (kbd "C-c i") 'slime-inspect)
-   ;;        (define-key slime-mode-map (kbd "C-c C-s") 'slime-selector)
-   ;;        ))
-   ;;   )
- #+END_SRC
 
 **** Paredit
  #+BEGIN_SRC emacs-lisp
@@ -850,8 +457,6 @@ https://github.com/bbatsov/emacs-dev-kit/blob/master/common-lisp-config.el
 
 ** The end
    #+begin_src emacs-lisp
-     ;; put frequency of garbage collection back to normal
-     (setq gc-cons-threshold  800000)
 
      (message "\nthe end of literal config\n")
    #+end_src
