@@ -355,6 +355,15 @@ We need to use path like this
      (global-set-key (kbd "s-0") 'unfold-lisp)
  #+END_SRC
 
+ 
+**** sly
+#+begin_src emacs-lisp
+  (use-package sly)
+  (setq inferior-lisp-program "sbcl")
+
+  (use-package sly-repl-ansi-color)
+#+end_src
+
 *** Parentheses coloring
 
  #+BEGIN_SRC emacs-lisp
