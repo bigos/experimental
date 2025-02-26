@@ -160,13 +160,13 @@ Do not load use-package packages manually, but load them when use-package sees t
 
     Allow access from emacsclient
 
-    #+begin_src emacs-lisp
+#+begin_src emacs-lisp
       (require 'server)
       (add-hook 'after-init-hook
                 (lambda ()
                   (unless (server-running-p)
                     (server-start))))
-    #+end_src
+#+end_src
 
 *** Window title
 #+begin_src emacs-lisp
