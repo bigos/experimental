@@ -232,16 +232,9 @@ Pop up menu
     )
 #+end_src
 
-*** Add mode flashing in overwrite
+*** Mark buffer in overwrite mode
     #+begin_src emacs-lisp
-      (defun double-flash-mode-line ()
-        (let ((flash-sec (/ 1.0 20)))
-          (invert-face 'mode-line)
-          (run-with-timer flash-sec nil #'invert-face 'mode-line)
-          (run-with-timer (* 2 flash-sec) nil #'invert-face 'mode-line)
-          (run-with-timer (* 3 flash-sec) nil #'invert-face 'mode-line)))
-
-      (add-hook 'overwrite-mode-hook #'(lambda () (double-flash-mode-line)))
+      (add-hook 'overwrite-mode-hook #'(lambda () (invert-face 'mode-line)))
     #+end_src
 
 
