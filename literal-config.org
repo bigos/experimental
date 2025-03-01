@@ -1,5 +1,10 @@
 * Literal config
 
+It can be run with
+#+begin_example
+  emacs --init-dir=~/.emacs.d-experimental --debug-init
+#+end_example
+
   Other examples can be found here
   https://github.com/caisah/emacs.dz
   https://github.com/alhassy/emacs.d
