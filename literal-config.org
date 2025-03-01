@@ -7,9 +7,9 @@
   https://github.com/protesilaos/dotfiles/tree/master/emacs/.emacs.d
 
 ** beginning
-   #+begin_src emacs-lisp
+#+begin_src emacs-lisp
      (message "\nbeginning of literal config")
-   #+end_src
+#+end_src
 
 ** Functions
 *** graph arrow
@@ -22,7 +22,7 @@
 *** Cleanup 80
 
     Needs polish TODO
-    
+
 
 #+begin_src emacs-lisp
   (defun cleanup-80 ()
@@ -39,39 +39,39 @@
 #+end_src
 
 ** Config
- 
+
 *** Define folders
 
 **** core
-     #+begin_src emacs-lisp
+#+begin_src emacs-lisp
        (defvar experimental-core-dir (expand-file-name "core" user-emacs-directory)
          "The core functionality.")
 
        (add-to-list 'load-path experimental-core-dir)
-     #+end_src
+#+end_src
 
 **** modules
-     #+begin_src emacs-lisp
+#+begin_src emacs-lisp
        (defvar experimental-modules-dir (expand-file-name  "modules" user-emacs-directory)
          "This is the folder for Experimental modules.")
 
        (add-to-list 'load-path experimental-modules-dir )
-     #+end_src
+#+end_src
 **** vendor
-     #+begin_src emacs-lisp
+#+begin_src emacs-lisp
        (defvar experimental-vendor-dir (expand-file-name "vendor" user-emacs-directory)
          "This directory houses packages that are not yet available in ELPA (or MELPA).")
 
        (add-to-list 'load-path experimental-vendor-dir)
-     #+end_src
+#+end_src
 
 **** savefile
-     #+begin_src emacs-lisp
+#+begin_src emacs-lisp
        (defvar experimental-savefile-dir (expand-file-name "savefile" user-emacs-directory)
          "This directory NEEDS CORRECTION.")
 
        (add-to-list 'load-path experimental-savefile-dir)
-     #+end_src
+#+end_src
 
 **** require selected modules
      This will allow for un/commenting required modules
@@ -102,32 +102,31 @@ Do not load use-package packages manually, but load them when use-package sees t
 #+end_src
 
 *** y-or-n-p
-    #+begin_src emacs-lisp
+#+begin_src emacs-lisp
       (fset 'yes-or-no-p 'y-or-n-p)
-    #+end_src
+#+end_src
 
 *** some shortcuts
-    #+begin_src emacs-lisp
-
+#+begin_src emacs-lisp
 ;; toggle menu-bar visibility
 (global-set-key (kbd "<f12>") 'menu-bar-mode)
 
-    #+end_src
+#+end_src
 
 *** More settings from prelude init
 
 **** Location of customize settings
-     #+begin_src emacs-lisp
+#+begin_src emacs-lisp
        ;; config changes made through the customize UI will be stored here
        (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
        (ignore-errors (load custom-file)) ;; It may not yet exist.
-     #+end_src
+#+end_src
 
 **** Inhibit showing of splash screen
-     #+begin_src emacs-lisp
+#+begin_src emacs-lisp
        ;; "Don't show splash screen"
        (setq inhibit-startup-screen t)
-     #+end_src
+#+end_src
 
 **** Backup, autosave and other editor settings
 
@@ -154,7 +153,7 @@ Do not load use-package packages manually, but load them when use-package sees t
   ;; revert buffers automatically when underlying files are changed externally
   (global-auto-revert-mode t)
 
-     #+end_src
+#+end_src
 
 *** Emacs server
 
@@ -233,9 +232,9 @@ Pop up menu
 #+end_src
 
 *** Mark buffer in overwrite mode
-    #+begin_src emacs-lisp
+#+begin_src emacs-lisp
       (add-hook 'overwrite-mode-hook #'(lambda () (invert-face 'mode-line)))
-    #+end_src
+#+end_src
 
 
 *** Org mode configuration
@@ -296,7 +295,7 @@ We need to use path like this
 **** Paredit
 
 
- #+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
    (unless (package-installed-p 'paredit)
      (package-install 'paredit))
 
@@ -327,10 +326,10 @@ We need to use path like this
 
    (add-hook 'clojure-mode-hook (lambda () (swap-paredit)))
    (add-hook 'cider-repl-mode-hook (lambda () (swap-paredit)))
- #+END_SRC
+#+END_SRC
 
 **** The rest
- #+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
    ;(require 'slime)
    ;; (setq common-lisp-hyperspec-root
    ;;       (format
@@ -346,9 +345,9 @@ We need to use path like this
        (newline-and-indent))
 
      (global-set-key (kbd "s-0") 'unfold-lisp)
- #+END_SRC
+#+END_SRC
 
- 
+
 **** sly
 #+begin_src emacs-lisp
   (use-package sly)
@@ -359,7 +358,7 @@ We need to use path like this
 
 *** Parentheses coloring
 
- #+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
    ;;; this add capability to define your own hook for responding to theme changes
    (defvar after-load-theme-hook nil
      "Hook run after a color theme is loaded using `load-theme'.")
@@ -459,17 +458,16 @@ We need to use path like this
    (add-hook 'after-load-theme-hook 'colorise-brackets)
 
 
- #+END_SRC
+#+END_SRC
 
 
 ** tip of the day
 
-   #+begin_src emacs-lisp
+#+begin_src emacs-lisp
      (message "M-x describe-personal-keybindings will show keybindings defined in use-package user configuration.")
-   #+end_src
+#+end_src
 
 ** The end
-   #+begin_src emacs-lisp
-
+#+begin_src emacs-lisp
      (message "\nthe end of literal config\n")
-   #+end_src
+#+end_src
