@@ -279,7 +279,7 @@ Pop up menu
 *** Lisp
 - The missing lisp autocompletion can be for now resolved with C-c M-i
 **** Emasc Lisp
-TODO add code for nicer ielm experiemce
+TODO add code for nicer ielm experience
 
 ***** jacek-verse
 We need to use path like this
